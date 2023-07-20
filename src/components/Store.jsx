@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Axios from 'axios';
 import Product from './Product';
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
-const Store = () => {
+const Store = ({ api }) => {
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState('default');
   const [pageNumber, setPageNumber] = useState(1);
@@ -10,9 +10,7 @@ const Store = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      await Axios.get(
-        `http://localhost:3002/api/products/${pageNumber}/${category}`
-      )
+      await Axios.get(`${api}api/products/${pageNumber}/${category}`)
         .then((res) => {
           setProducts(res.data);
           setLoading(false);

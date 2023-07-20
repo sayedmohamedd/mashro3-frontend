@@ -2,7 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
 import { IoMdArrowDropdown } from 'react-icons/io';
-const Nav = () => {
+const Nav = ({ api }) => {
   const [categories, setCategories] = useState([]);
   // const [cartOrders, setCartOrders] = useState([]);
   const categoryDropDown = useRef();
@@ -10,7 +10,7 @@ const Nav = () => {
   // fetch categories
   useEffect(() => {
     const fetchCategories = async () => {
-      const res = await Axios.get('http://localhost:3002/api/categories');
+      const res = await Axios.get(`${api}api/categories`);
       setCategories(res.data);
     };
     fetchCategories();

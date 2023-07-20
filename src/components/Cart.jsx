@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import CartProduct from './CartProduct';
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
-const Cart = () => {
+const Cart = ({ api }) => {
   const [products, setProducts] = useState([]);
   useEffect(() => {
     const fetchProducts = async () => {
-      const res = await Axios.get('http://localhost:3002/api/products');
+      const res = await Axios.get(`${api}api/products`);
       setProducts(res.data);
     };
     fetchProducts();

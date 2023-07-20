@@ -6,11 +6,11 @@ import Product from './Product';
 import Axios from 'axios';
 import { Link } from 'react-router-dom';
 
-const MainPage = () => {
+const MainPage = ({ api }) => {
   const [products, setProducts] = useState([]);
   useEffect(() => {
     const fetchProducts = async () => {
-      const res = await Axios.get('http://localhost:3002/api/products');
+      const res = await Axios.get(`${api}api/products`);
       setProducts(res.data);
     };
     fetchProducts();
@@ -19,7 +19,7 @@ const MainPage = () => {
     <>
       <Advertisments />
       {/* <Offers /> */}
-      <Categories />
+      <Categories api={api} />
 
       {/* latest */}
       <section className="my-12">

@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import Axios from 'axios';
 import { Link } from 'react-router-dom';
-const Categories = () => {
+const Categories = ({ api }) => {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const res = await Axios.get('http://localhost:3002/api/categories');
+      const res = await Axios.get(`${api}api/categories`);
       setCategories(res.data);
     };
     fetchCategories();
