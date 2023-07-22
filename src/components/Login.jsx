@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 const Login = ({ api }) => {
@@ -8,6 +8,11 @@ const Login = ({ api }) => {
   const [result, setResult] = useState();
   const navigate = useNavigate();
   const [cookie, setCookie, removeCookie] = useCookies(['access_token']);
+
+  useEffect(() => {
+    scrollTop();
+  });
+
   const submitForm = (e) => {
     e.preventDefault();
     Axios.post(`${api}api/login`, { email, password })
@@ -22,6 +27,10 @@ const Login = ({ api }) => {
         }
       })
       .catch((err) => console.log(err));
+  };
+
+  const scrollTop = () => {
+    window.scrollTo(0, 0);
   };
   return (
     <section className="conatiner mx-auto min-h-[82vh]">

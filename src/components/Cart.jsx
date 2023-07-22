@@ -11,7 +11,13 @@ const Cart = ({ api }) => {
         .catch((err) => console.log(err));
     };
     fetchProducts();
+    scrollTop();
   }, [api]);
+
+  const scrollTop = () => {
+    window.scrollTo(0, 0);
+  };
+
   return (
     <>
       <section className="min-h-[100vh]">

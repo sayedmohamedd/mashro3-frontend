@@ -9,6 +9,7 @@ const Store = ({ api }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    scrollTop();
     const fetchProducts = async () => {
       await Axios.get(`${api}api/products/${pageNumber}/${category}`)
         .then((res) => {
@@ -23,15 +24,19 @@ const Store = ({ api }) => {
   const onNext = () => {
     setPageNumber((prev) => prev + 1);
     setLoading(true);
-    window.scrollTo(0, 0);
+    scrollTop();
   };
 
   const onPrev = () => {
     if (pageNumber > 1) {
       setPageNumber((prev) => prev - 1);
       setLoading(true);
-      window.scrollTo(0, 0);
+      scrollTop();
     }
+  };
+
+  const scrollTop = () => {
+    window.scrollTo(0, 0);
   };
 
   return (

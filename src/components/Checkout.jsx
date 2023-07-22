@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 const Checkout = () => {
   const shipping = useRef(0);
@@ -12,6 +12,14 @@ const Checkout = () => {
   const [city, setCity] = useState('');
   const [zip_code, setZipCode] = useState('');
   const [card_number, setCardNumber] = useState('');
+
+  useEffect(() => {
+    scrollTop();
+  }, []);
+
+  const scrollTop = () => {
+    window.scrollTo(0, 0);
+  };
 
   const next = (e) => {
     e.preventDefault();

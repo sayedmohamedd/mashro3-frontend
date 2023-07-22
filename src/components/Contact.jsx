@@ -1,12 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const Contact = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
 
+  useEffect(() => {
+    scrollTop();
+  }, []);
+
   const submitForm = (e) => {
     e.preventDefault();
+  };
+
+  const scrollTop = () => {
+    window.scrollTo(0, 0);
   };
 
   return (

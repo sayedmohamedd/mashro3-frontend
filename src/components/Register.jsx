@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Register = ({ api }) => {
@@ -9,6 +9,10 @@ const Register = ({ api }) => {
   const [phone, setPhone] = useState('');
   const [result, setResult] = useState();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    scrollTop();
+  }, []);
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -27,6 +31,11 @@ const Register = ({ api }) => {
         .catch((err) => console.log(err));
     }
   };
+
+  const scrollTop = () => {
+    window.scrollTo(0, 0);
+  };
+
   return (
     <section className="conatiner mx-auto min-h-[100vh]">
       <form
