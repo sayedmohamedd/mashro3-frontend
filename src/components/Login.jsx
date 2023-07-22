@@ -11,7 +11,7 @@ const Login = ({ api }) => {
 
   useEffect(() => {
     scrollTop();
-  });
+  }, []);
 
   const submitForm = (e) => {
     e.preventDefault();

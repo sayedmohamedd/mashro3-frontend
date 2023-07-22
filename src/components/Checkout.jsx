@@ -26,7 +26,7 @@ const Checkout = () => {
     if (first_name && last_name && email && address && city && zip_code) {
       shipping.current.classList.add('hidden');
       order.current.classList.remove('hidden');
-      window.scroll(0, 0);
+      scrollTop();
     }
   };
 
@@ -34,7 +34,7 @@ const Checkout = () => {
     e.preventDefault();
     shipping.current.classList.remove('hidden');
     order.current.classList.add('hidden');
-    window.scroll(0, 0);
+    scrollTop();
   };
 
   const pay = (e) => {
@@ -43,7 +43,7 @@ const Checkout = () => {
       shipping.current.classList.add('hidden');
       order.current.classList.add('hidden');
       bill.current.classList.remove('hidden');
-      window.scroll(0, 0);
+      scrollTop();
     }
   };
 

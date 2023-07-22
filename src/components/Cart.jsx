@@ -11,8 +11,11 @@ const Cart = ({ api }) => {
         .catch((err) => console.log(err));
     };
     fetchProducts();
-    scrollTop();
   }, [api]);
+
+  useEffect(() => {
+    scrollTop();
+  }, []);
 
   const scrollTop = () => {
     window.scrollTo(0, 0);

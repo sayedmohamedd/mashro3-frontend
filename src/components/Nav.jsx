@@ -16,8 +16,11 @@ const Nav = ({ api }) => {
         .catch((err) => console.log(err));
     };
     fetchCategories();
-    scrollTop();
   }, [categories, api]);
+
+  useEffect(() => {
+    scrollTop();
+  }, []);
 
   const scrollTop = () => {
     window.scrollTo(0, 0);
