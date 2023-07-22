@@ -18,7 +18,7 @@ const Store = ({ api }) => {
         .catch((err) => console.log(err));
     };
     fetchProducts();
-  }, [pageNumber, category]);
+  }, [pageNumber, category, api]);
 
   const onNext = () => {
     setPageNumber((prev) => prev + 1);

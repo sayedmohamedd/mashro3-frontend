@@ -6,11 +6,12 @@ const Cart = ({ api }) => {
   const [products, setProducts] = useState([]);
   useEffect(() => {
     const fetchProducts = async () => {
-      const res = await Axios.get(`${api}api/products`);
-      setProducts(res.data);
+      await Axios.get(`${api}api/products`)
+        .then((res) => setProducts(res.data))
+        .catch((err) => console.log(err));
     };
     fetchProducts();
-  }, [products]);
+  }, [api]);
   return (
     <>
       <section className="min-h-[100vh]">

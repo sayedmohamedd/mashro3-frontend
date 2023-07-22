@@ -10,11 +10,11 @@ const MainPage = ({ api }) => {
   const [products, setProducts] = useState([]);
   useEffect(() => {
     const fetchProducts = async () => {
-      const res = await Axios.get(`${api}api/products`);
+      const res = await Axios.get(api + 'api/products');
       setProducts(res.data);
     };
     fetchProducts();
-  }, [products]);
+  }, [products, api]);
   return (
     <>
       <Advertisments />

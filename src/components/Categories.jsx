@@ -6,11 +6,12 @@ const Categories = ({ api }) => {
 
   useEffect(() => {
     const fetchCategories = async () => {
-      const res = await Axios.get(`${api}api/categories`);
-      setCategories(res.data);
+      await Axios.get(`${api}api/categories`)
+        .then((res) => setCategories(res.data))
+        .catch((err) => console.log(err));
     };
     fetchCategories();
-  }, [categories]);
+  }, [api]);
 
   return (
     <section className="container mx-auto my-5 py-3">
@@ -21,9 +22,11 @@ const Categories = ({ api }) => {
         {categories.map((category) => (
           <div
             key={category._id}
-            className="w-[70%] md:w-[20%] flex justify-center items-center py-6 rounded-md text-xl font-medium text-slate-800 bg-white hover:scale-95 ease-in-out duration-100 cursor-pointer"
+            className="w-[70%] md:w-[20%] flex justify-center text-center items-center px-2 py-6 rounded-md text-xl font-medium text-slate-800 bg-white hover:scale-95 ease-in-out duration-100 cursor-pointer"
           >
-            <Link to={`/store`}>{category.name}</Link>
+            <Link to={`/store`} className="text-center">
+              {category.name}
+            </Link>
           </div>
         ))}
       </div>
