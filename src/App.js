@@ -15,7 +15,7 @@ import Register from './components/Register';
 // export const ApiContext = createContext('http://localhost:3002');
 
 function App() {
-  const [api] = useState('http://localhost:3002/');
+  const [api] = useState('https://mashro3-backend.onrender.com/');
   return (
     <>
       <BrowserRouter>
