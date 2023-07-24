@@ -2,10 +2,13 @@ import Axios from 'axios';
 const CartProduct = ({ product }) => {
   const deleteProduct = async (product_id) => {
     const user_id = window.localStorage.getItem('userId');
-    await Axios.post('http://localhost:3002/api/cart/removeProduct', {
-      user_id,
-      product_id,
-    }).then((res) => console.log(res.data));
+    await Axios.post(
+      'https://mashro3-backend.onrender.com/api/cart/removeProduct',
+      {
+        user_id,
+        product_id,
+      }
+    ).then((res) => console.log(res.data));
   };
   return (
     <div className="md:w-[30%] lg:w-[20%] flex flex-col p-3 shadow-xl rounded-xl bg-white">

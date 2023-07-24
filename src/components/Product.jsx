@@ -1,10 +1,13 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AiFillHeart } from 'react-icons/ai';
 import { BsStarFill, BsStarHalf, BsStar, BsCartPlus } from 'react-icons/bs';
 
 import Axios from 'axios';
+import { useCookies } from 'react-cookie';
 
 const Product = ({ product, loading }) => {
+  const [cookie, setCookie, removeCookie] = useCookies(['access_token']);
+  const navigate = useNavigate();
   const addToCart = async (
     id,
     name,
@@ -15,8 +18,11 @@ const Product = ({ product, loading }) => {
     image,
     rate
   ) => {
-    const user_id = window.localStorage.getItem('userId');
-    if (user_id) {
+    if (!cookie.access_token) {
+      navigate('/login');
+    } else {
+      console.log(cookie.access_token);
+      const user_id = window.localStorage.getItem('userId');
       await Axios.post(
         'https://mashro3-backend.onrender.com/api/cart/addproduct',
         // 'http://localhost:3002/api/cart/addproduct',

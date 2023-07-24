@@ -48,6 +48,7 @@ const Login = ({ api }) => {
           className="border-b py-2 px-3 rounded-md bg-gray-200 focus:bg-gray-100"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          required
         />
         <label htmlFor="password" className="text-lg text-slate-800">
           Password
@@ -58,6 +59,7 @@ const Login = ({ api }) => {
           className="border-b py-2 px-3 rounded-md bg-gray-200 focus:bg-gray-100"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          required
         />
         <button
           type="submit"

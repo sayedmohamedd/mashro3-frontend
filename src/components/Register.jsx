@@ -61,6 +61,7 @@ const Register = ({ api }) => {
           className="border-b py-2 px-3 rounded-md bg-gray-200 focus:bg-gray-100"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          required
         />
         <label htmlFor="email" className="text-lg text-slate-800">
           Email
@@ -71,6 +72,8 @@ const Register = ({ api }) => {
           className="border-b py-2 px-3 rounded-md bg-gray-200 focus:bg-gray-100"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          required
+          minLength="8"
         />
         <label htmlFor="password" className="text-lg text-slate-800">
           Password
@@ -81,6 +84,7 @@ const Register = ({ api }) => {
           className="border-b py-2 px-3 rounded-md bg-gray-200 focus:bg-gray-100"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          required
         />
         <label htmlFor="phone" className="text-lg text-slate-800">
           Phone
@@ -91,6 +95,7 @@ const Register = ({ api }) => {
           className="border-b py-2 px-3 rounded-md bg-gray-200 focus:bg-gray-100"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
+          required
         />
         <button
           type="submit"
