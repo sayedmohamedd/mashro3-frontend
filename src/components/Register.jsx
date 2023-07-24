@@ -16,20 +16,20 @@ const Register = ({ api }) => {
 
   const submitForm = (e) => {
     e.preventDefault();
-    if (username && email && password && phone) {
-      Axios.post(`${api}api/register`, { username, email, password, phone })
-        .then((res) => {
-          setResult(res.data);
-          if (res.data.success) {
-            setUsername('');
-            setEmail('');
-            setPassword('');
-            setPhone('');
-            navigate('/login');
-          }
-        })
-        .catch((err) => console.log(err));
-    }
+    // if (username && email && password && phone) {
+    Axios.post(`${api}api/register`, { username, email, password, phone })
+      .then((res) => {
+        setResult(res.data.msg);
+        if (res.data.success) {
+          setUsername('');
+          setEmail('');
+          setPassword('');
+          setPhone('');
+          navigate('/login');
+        }
+      })
+      .catch((err) => console.log(err));
+    // }
   };
 
   const scrollTop = () => {
@@ -38,6 +38,13 @@ const Register = ({ api }) => {
 
   return (
     <section className="conatiner mx-auto min-h-[100vh]">
+      {/* <div className="w-[20%] mx-auto text-center flex flex-col gap-1">
+        {result?.map((msg) => (
+          <p key={msg} className="text-red-500 bg-gray-300 px-2">
+            {msg}
+          </p>
+        ))}
+      </div> */}
       <form
         onSubmit={submitForm}
         className="flex flex-col gap-4 mx-auto w-[330px] mt-8 rounded-md px-6 py-5 shadow-md bg-white"

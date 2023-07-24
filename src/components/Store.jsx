@@ -10,13 +10,20 @@ const Store = ({ api }) => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      await Axios.get(`${api}api/products/${pageNumber}/${category}`)
-        .then((res) => {
-          setProducts(res.data);
-          setLoading(false);
-        })
-        .catch((err) => console.log(err));
+      const res = await Axios.get(
+        `${api}api/products/${pageNumber}/${category}`
+      ).catch((err) => console.log(err));
+      setProducts(res.data);
+      setLoading(false);
     };
+    // const fetchProducts = async () => {
+    //   await Axios.get(`${api}api/products/${pageNumber}/${category}`)
+    //     .then((res) => {
+    //       setProducts(res.data);
+    //       setLoading(false);
+    //     })
+    //     .catch((err) => console.log(err));
+    // };
     fetchProducts();
   }, [pageNumber, category, api]);
 
@@ -81,7 +88,12 @@ const Store = ({ api }) => {
           </div>
           <div className="mx-auto px-6 py-5 flex flex-col items-center justify-center md:flex-row flex-wrap gap-5">
             {products.map((product) => (
-              <Product product={product} key={product._id} loading={loading} />
+              <Product
+                product={product}
+                loading={loading}
+                api={api}
+                key={product._id}
+              />
             ))}
           </div>
           {/* slider */}

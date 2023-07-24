@@ -14,7 +14,7 @@ const MainPage = ({ api }) => {
       setProducts(res.data);
     };
     fetchProducts();
-  }, [products, api]);
+  }, [api]);
   return (
     <>
       <Advertisments />
@@ -27,7 +27,12 @@ const MainPage = ({ api }) => {
           <h1 className="mb-5 text-3xl font-medium text-heading">Latest</h1>
           <div className="flex flex-col md:flex-row justify-between gap-6">
             {products.slice(0, 5).map((product) => (
-              <Product product={product} key={product._id} />
+              <Product
+                product={product}
+                loading={0}
+                api={api}
+                key={product._id}
+              />
             ))}
           </div>
           <Link to="/store">

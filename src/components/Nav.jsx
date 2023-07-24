@@ -5,6 +5,7 @@ import { IoMdArrowDropdown } from 'react-icons/io';
 import { useCookies } from 'react-cookie';
 const Nav = ({ api }) => {
   const [categories, setCategories] = useState([]);
+  // const [cart, setCart] = useState([]);
   const categoryDropDown = useRef();
   const [cookie, setCookie, removeCookie] = useCookies(['access_token']);
 
@@ -16,7 +17,19 @@ const Nav = ({ api }) => {
         .catch((err) => console.log(err));
     };
     fetchCategories();
-  }, [categories, api]);
+  }, [api]);
+
+  // useEffect(() => {
+  //   const fetchCart = async () => {
+  //     const user_id = window.localStorage.getItem('userId');
+  //     await Axios.post(api + `api/cart`, { user_id })
+  //       .then((res) => {
+  //         setCart(res.data);
+  //       })
+  //       .catch((err) => console.log(err));
+  //   };
+  //   fetchCart();
+  // }, [api]);
 
   useEffect(() => {
     scrollTop();
@@ -105,7 +118,9 @@ const Nav = ({ api }) => {
                 fill="rgba(255,255,255,1)"
               ></path>
             </svg>
-            <span className="after:content-['1'] after:right-0 after:-top-3 after:text-red-400 after:absolute text-lg font-medium text-slate-700"></span>
+            <span
+              className={`after:content-[''] after:right-0 after:-top-3 after:text-red-400 after:absolute text-lg font-medium text-slate-700`}
+            ></span>
           </Link>
           {!cookie.access_token && (
             <Link to="/login">

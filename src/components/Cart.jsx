@@ -4,10 +4,16 @@ import { Link } from 'react-router-dom';
 import Axios from 'axios';
 const Cart = ({ api }) => {
   const [products, setProducts] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
+
   useEffect(() => {
     const fetchProducts = async () => {
-      await Axios.get(`${api}api/products`)
-        .then((res) => setProducts(res.data))
+      const user_id = window.localStorage.getItem('userId');
+      await Axios.post(api + `api/cart`, { user_id })
+        .then((res) => {
+          setProducts(res.data);
+          setTotalPrice(determineTotalPrice(res.data));
+        })
         .catch((err) => console.log(err));
     };
     fetchProducts();
@@ -16,6 +22,14 @@ const Cart = ({ api }) => {
   useEffect(() => {
     scrollTop();
   }, []);
+
+  const determineTotalPrice = (products) => {
+    let total = 0;
+    products.map((product) => {
+      return (total += product?.price * product?.number);
+    });
+    return total;
+  };
 
   const scrollTop = () => {
     window.scrollTo(0, 0);
@@ -40,7 +54,8 @@ const Cart = ({ api }) => {
           </div>
           <div className="flex justify-between items-center mt-5 md:px-6">
             <h1 className="font-medium text-lg md:text-xl">
-              Subtotal: <span>250$</span>
+              Subtotal:
+              <span> {totalPrice} $</span>
             </h1>
             <div className="flex flex-col md:flex-row gap-3">
               <button className="font-medium px-3 py-2 bg-green-400 rounded-md text-sm md:text-base">
