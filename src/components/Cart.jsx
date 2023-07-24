@@ -17,7 +17,7 @@ const Cart = ({ api }) => {
         .catch((err) => console.log(err));
     };
     fetchProducts();
-  }, [api]);
+  }, [products, api]);
 
   useEffect(() => {
     scrollTop();

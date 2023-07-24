@@ -21,7 +21,6 @@ const Product = ({ product, loading }) => {
     if (!cookie.access_token) {
       navigate('/login');
     } else {
-      console.log(cookie.access_token);
       const user_id = window.localStorage.getItem('userId');
       await Axios.post(
         'https://mashro3-backend.onrender.com/api/cart/addproduct',
