@@ -19,6 +19,7 @@ const Product = ({ product, loading }) => {
     if (user_id) {
       await Axios.post(
         'https://mashro3-backend.onrender.com/api/cart/addproduct',
+        // 'http://localhost:3002/api/cart/addproduct',
         {
           user_id,
           name,

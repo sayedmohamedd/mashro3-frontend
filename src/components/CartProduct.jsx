@@ -1,4 +1,12 @@
+import Axios from 'axios';
 const CartProduct = ({ product }) => {
+  const deleteProduct = async (product_id) => {
+    const user_id = window.localStorage.getItem('userId');
+    await Axios.post('http://localhost:3002/api/cart/removeProduct', {
+      user_id,
+      product_id,
+    }).then((res) => console.log(res.data));
+  };
   return (
     <div className="md:w-[30%] lg:w-[20%] flex flex-col p-3 shadow-xl rounded-xl bg-white">
       <img src={product.image} alt={product.name} className="aspect-square" />
@@ -14,7 +22,10 @@ const CartProduct = ({ product }) => {
           <span>{product.number}</span>
           <span>+</span>
         </div>
-        <button className="self-end font-medium px-2 py-1.5 rounded-md my-2 bg-red-400">
+        <button
+          className="self-end font-medium px-2 py-1.5 rounded-md my-2 bg-red-400"
+          onClick={() => deleteProduct(product.product_id)}
+        >
           REMOVE
         </button>
       </div>
