@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-const Checkout = () => {
+import Axios from 'axios';
+const Checkout = ({ api }) => {
   const shipping = useRef(0);
   const order = useRef(0);
   const bill = useRef(0);
@@ -13,9 +14,33 @@ const Checkout = () => {
   const [zip_code, setZipCode] = useState('');
   const [card_number, setCardNumber] = useState('');
 
+  const [products, setProducts] = useState([]);
+  const [totalPrice, setTotalPrice] = useState();
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const user_id = window.localStorage.getItem('userId');
+      await Axios.post(api + `api/cart`, { user_id })
+        .then((res) => {
+          setProducts(res.data);
+          setTotalPrice(determineTotalPrice(res.data));
+        })
+        .catch((err) => console.log(err));
+    };
+    fetchProducts();
+  }, [products, api]);
+
   useEffect(() => {
     scrollTop();
   }, []);
+
+  const determineTotalPrice = (products) => {
+    let total = 0;
+    products.map((product) => {
+      return (total += product?.price * product?.number);
+    });
+    return total;
+  };
 
   const scrollTop = () => {
     window.scrollTo(0, 0);
@@ -184,6 +209,18 @@ const Checkout = () => {
                 </h3>
                 <div className="flex flex-col gap-5 md:space-x-1">
                   <ul className="flex flex-col space-y-4">
+                    {products.map((product) => (
+                      <li
+                        key={product._id}
+                        className="flex justify-between items-center"
+                      >
+                        <p className="flex flex-col">
+                          <span>{product.name}</span>
+                          <span>Quantity: {product.number}</span>
+                        </p>
+                        <span>${product.price * product.number}</span>
+                      </li>
+                    ))}
                     <li className="flex justify-between items-center">
                       <p className="flex flex-col">
                         <span>Keyboard</span>
@@ -191,16 +228,10 @@ const Checkout = () => {
                       </p>
                       <span>$65.00</span>
                     </li>
-                    <li className="flex justify-between items-center">
-                      <p className="flex flex-col">
-                        <span>Mouse</span>
-                        <span>Quantity: 1</span>
-                      </p>
-                      <span>$65.00</span>
-                    </li>
+
                     <li className="flex py-2 justify-between border-0 border-b-2">
                       <span className="text-lg">Total</span>
-                      <span>$115.00</span>
+                      <span>${totalPrice}</span>
                     </li>
                   </ul>
                   <h1>Payment Method</h1>
@@ -226,7 +257,7 @@ const Checkout = () => {
                       className="w-28 py-1 rounded-lg font-medium text-white bg-blue-400"
                       onClick={pay}
                     >
-                      Pay $115.00
+                      Pay ${totalPrice}
                     </button>
                   </div>
                 </div>
@@ -235,7 +266,8 @@ const Checkout = () => {
               {/* bill */}
               <div ref={bill} className=" hidden w-full">
                 <h3 className="font-medium text-xl text-heading my-5">
-                  Thank You for your purchase, Sayed Mohamed
+                  Thank You for your purchase,{' '}
+                  {window.localStorage.getItem('username')}
                 </h3>
                 <p className="my-2 text-slate-600">Order-ref:JDSJFHSJ-213681</p>
                 <Link to="/">

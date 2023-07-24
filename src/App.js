@@ -25,7 +25,7 @@ function App() {
           <Route path="/" element={<MainPage api={api} />} />
           <Route path="/store" element={<Store api={api} />} />
           <Route path="/cart" element={<Cart api={api} />} />
-          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/checkout" element={<Checkout api={api} />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login api={api} />} />
           <Route path="/register" element={<Register api={api} />} />

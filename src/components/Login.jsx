@@ -18,11 +18,13 @@ const Login = ({ api }) => {
     Axios.post(`${api}api/login`, { email, password })
       .then((res) => {
         setResult(res.data);
+        console.log(res.data);
         if (res.data.success) {
           setEmail('');
           setPassword('');
           setCookie('access_token', res.data.token);
           window.localStorage.setItem('userId', res.data.userId);
+          window.localStorage.setItem('username', res.data.username);
           navigate('/');
         }
       })
