@@ -16,16 +16,19 @@ const Product = ({ product, loading }) => {
   ) => {
     const user_id = window.localStorage.getItem('userId');
     if (user_id) {
-      await Axios.post('http://localhost:3002/api/cart/addproduct', {
-        user_id,
-        product_id: id,
-        price,
-        description,
-        category,
-        offer,
-        image,
-        rate,
-      })
+      await Axios.post(
+        'https://mashro3-backend.onrender.com/api/cart/addproduct',
+        {
+          user_id,
+          product_id: id,
+          price,
+          description,
+          category,
+          offer,
+          image,
+          rate,
+        }
+      )
         .then((res) => console.log(res.data))
         .catch((err) => console.log(err));
     }
