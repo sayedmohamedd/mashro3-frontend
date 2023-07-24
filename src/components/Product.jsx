@@ -7,6 +7,7 @@ import Axios from 'axios';
 const Product = ({ product, loading }) => {
   const addToCart = async (
     id,
+    name,
     price,
     description,
     category,
@@ -20,6 +21,7 @@ const Product = ({ product, loading }) => {
         'https://mashro3-backend.onrender.com/api/cart/addproduct',
         {
           user_id,
+          name,
           product_id: id,
           price,
           description,
@@ -66,6 +68,7 @@ const Product = ({ product, loading }) => {
           onClick={() =>
             addToCart(
               product._id,
+              product.name,
               product.price,
               product.description,
               product.category,
