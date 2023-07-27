@@ -48,6 +48,7 @@ const Checkout = ({ api }) => {
 
   const next = (e) => {
     e.preventDefault();
+    scrollTop();
     if (first_name && last_name && email && address && city && zip_code) {
       shipping.current.classList.add('hidden');
       order.current.classList.remove('hidden');

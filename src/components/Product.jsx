@@ -4,6 +4,7 @@ import { BsStarFill, BsStarHalf, BsStar, BsCartPlus } from 'react-icons/bs';
 
 import Axios from 'axios';
 import { useCookies } from 'react-cookie';
+// import { motion } from 'framer-motion';
 
 const Product = ({ product, loading }) => {
   const [cookie, setCookie, removeCookie] = useCookies(['access_token']);
@@ -23,8 +24,8 @@ const Product = ({ product, loading }) => {
     } else {
       const user_id = window.localStorage.getItem('userId');
       await Axios.post(
-        'https://mashro3-backend.onrender.com/api/cart/addproduct',
-        // 'http://localhost:3002/api/cart/addproduct',
+        // 'https://mashro3-backend.onrender.com/api/cart/addproduct',
+        'http://localhost:3002/api/cart/addproduct',
         {
           user_id,
           name,

@@ -8,12 +8,24 @@ import { Link } from 'react-router-dom';
 
 const MainPage = ({ api }) => {
   const [products, setProducts] = useState([]);
+  const [latestProducts, setLastestProducts] = useState([]);
+
+  // Fetch Products
   useEffect(() => {
     const fetchProducts = async () => {
       const res = await Axios.get(api + 'api/products');
       setProducts(res.data);
     };
     fetchProducts();
+  }, [api]);
+
+  // Fetch Latest Products
+  useEffect(() => {
+    const fetchLatestProducts = async () => {
+      const res = await Axios.get(api + 'api/latestProducts');
+      setLastestProducts(res.data);
+    };
+    fetchLatestProducts();
   }, [api]);
   return (
     <>
@@ -26,7 +38,7 @@ const MainPage = ({ api }) => {
         <div className="container mx-auto px-6 py-5 text-center rounded-3xl shadow-2xl bg-white">
           <h1 className="mb-5 text-3xl font-medium text-heading">Latest</h1>
           <div className="flex flex-col md:flex-row justify-between gap-6">
-            {products.slice(0, 5).map((product) => (
+            {latestProducts.slice(0, 5).map((product) => (
               <Product
                 product={product}
                 loading={0}

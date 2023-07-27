@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import Axios from 'axios';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import { useCookies } from 'react-cookie';
+import { motion } from 'framer-motion';
+
 const Nav = ({ api }) => {
   const [categories, setCategories] = useState([]);
   // const [cart, setCart] = useState([]);
@@ -45,7 +47,12 @@ const Nav = ({ api }) => {
   };
 
   return (
-    <nav className="bg-[#131921] sticky top-0 z-10">
+    <motion.nav
+      initial={{ y: -50, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ delay: 0.3, duration: 0.8, stiffness: 100 }}
+      className="bg-[#131921] sticky top-0 z-10"
+    >
       <div className="container mx-auto px-6 py-4 flex justify-between items-center text-white">
         {/* logo */}
         <div>
@@ -103,7 +110,7 @@ const Nav = ({ api }) => {
         </ul>
         <div className="flex gap-4">
           <Link
-            to="/cart"
+            to={cookie.access_token ? '/cart' : '/login'}
             className="text-bold text-lg flex space-x-2 items-center relative"
           >
             {/* <span>Cart</span> */}
@@ -134,7 +141,7 @@ const Nav = ({ api }) => {
           )}
         </div>
       </div>
-    </nav>
+    </motion.nav>
   );
 };
 
