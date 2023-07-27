@@ -17,7 +17,7 @@ const Register = ({ api }) => {
   const submitForm = (e) => {
     e.preventDefault();
     // if (username && email && password && phone) {
-    Axios.post(`${api}api/register`, { username, email, password, phone })
+    Axios.post(api + 'api/register', { username, email, password, phone })
       .then((res) => {
         setResult(res.data.msg);
         if (res.data.success) {

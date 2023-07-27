@@ -1,7 +1,7 @@
 import Axios from 'axios';
 const CartProduct = ({ product }) => {
-  // const api = "https://mashro3-backend.onrender.com/"
-  const api = 'http://localhost:3002/';
+  const api = 'https://mashro3-backend.onrender.com/';
+  // const api = 'http://localhost:3002/';
 
   // Delete Product Function
   const deleteProduct = async (product_id) => {
