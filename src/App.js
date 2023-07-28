@@ -11,9 +11,11 @@ import Checkout from './components/Checkout';
 import Contact from './components/Contact';
 import Login from './components/Login';
 import Register from './components/Register';
+import ProductPage from './components/ProductPage';
 
 function App() {
   const [api] = useState('https://mashro3-backend.onrender.com/');
+
   // const [api] = useState('http://localhost:3002/');
   return (
     <>
@@ -27,6 +29,7 @@ function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login api={api} />} />
           <Route path="/register" element={<Register api={api} />} />
+          <Route path="/products/:slug" element={<ProductPage api={api} />} />
         </Routes>
         <Footer />
       </BrowserRouter>

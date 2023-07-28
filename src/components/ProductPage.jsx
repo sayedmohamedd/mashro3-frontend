@@ -1,0 +1,50 @@
+import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
+
+const ProductPage = ({ api, product }) => {
+  const AddToCart = () => {};
+  return (
+    <section className="min-h-[100vh]">
+      <h1 className="text-center text-3xl font-medium text-slate-900 mt-12 my-7">
+        Blue T-Shirt
+      </h1>
+      <div className="container mx-auto my-5 p-5 flex flex-col md:flex-row gap-7 rounded-md bg-white">
+        <div className="md:w-1/2 max-h-[70vh] flex justify-center items-center p-5 rounded-md">
+          <img
+            src="/products/product-1.jpg"
+            className="aspect-square object-contain max-h-[90%] max-w-[90%] md:max-h-[100%] md:max-w-[100%]"
+            alt="Blue T-Shirt"
+          />
+        </div>
+        <div className="md:w-[40%] flex flex-col justify-evenly">
+          <p className="text-slate-500 my-3 leading-7 text-justify">
+            Imagine each paragraph as a sandwich. The real content of the
+            sandwich—the meat or other filling—is in the middle. It includes all
+            the evidence you need to make the point. But it gets kind of messy
+            to eat a sandwich without any bread. Your readers don’t know what to
+            do with all the evid… Problem: the paragraph has more than one
+          </p>
+          <p className="text-slate-500">
+            Price: <span>55 $</span>
+          </p>
+          <div className="flex my-3 text-yellow-500">
+            {Array(3)
+              .fill(1)
+              .map(() => (
+                <BsStarFill />
+              ))}
+            <BsStarHalf />
+            <BsStar />
+          </div>
+          <button
+            onClick={AddToCart}
+            className="px-7 py-2.5 rounded-md bg-green-400 text-white"
+          >
+            Add To Cart
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default ProductPage;

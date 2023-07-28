@@ -1,5 +1,8 @@
 // import React, { useRef } from 'react';
 
+// Framer Motion Animation
+import { motion } from 'framer-motion';
+
 const Advertisments = () => {
   // const imgsContainer = useRef(0);
   // const slideFunction = () => {
@@ -12,7 +15,12 @@ const Advertisments = () => {
     <section className="my-5">
       <div className="container mx-auto px-3 py-2 flex flex-col md:flex-row gap-4  md:max-h-[60vh]">
         {/* slider */}
-        <div className="w-full md:w-1/2 relative flex justify-center items-center border-2 shadow-md rounded-md bg-white">
+        <motion.div
+          initial={{ x: -500 }}
+          transition={{ delay: 0.5, duration: 1.2 }}
+          animate={{ x: 0 }}
+          className="w-full md:w-1/2 relative flex justify-center items-center border-2 shadow-md rounded-md bg-white"
+        >
           <img
             src="./products/product-21.jpg"
             className="aspect-[1/1] object-contain w-full h-full rounded-md"
@@ -23,9 +31,14 @@ const Advertisments = () => {
             <span className="w-4 h-4 rounded-full border-2 border-gray-300"></span>
             <span className="w-4 h-4 rounded-full border-2 border-gray-300 "></span>
           </div>
-        </div>
+        </motion.div>
         {/* offers */}
-        <div className="w-full md:w-1/2 flex flex-wrap gap-2 py-4 justify-center items-center border-2 shadow-md rounded-md bg-white">
+        <motion.div
+          initial={{ x: 500 }}
+          transition={{ delay: 0.5, duration: 1.2 }}
+          animate={{ x: 0 }}
+          className="w-full md:w-1/2 flex flex-wrap gap-2 py-4 justify-center items-center border-2 shadow-md rounded-md bg-white"
+        >
           <div className="w-[45%] h-[50%] rounded-md">
             <img
               src="./products/product-20.jpg"
@@ -54,7 +67,7 @@ const Advertisments = () => {
               alt=""
             />
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

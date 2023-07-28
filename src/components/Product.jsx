@@ -4,7 +4,7 @@ import { BsStarFill, BsStarHalf, BsStar, BsCartPlus } from 'react-icons/bs';
 
 import Axios from 'axios';
 import { useCookies } from 'react-cookie';
-// import { motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 const Product = ({ product, loading }) => {
   const [cookie, setCookie, removeCookie] = useCookies(['access_token']);
@@ -52,39 +52,48 @@ const Product = ({ product, loading }) => {
       />
       <div className="flex justify-between">
         <h1 className="font-medium text-xl">
-          <Link to={`/products/${product.id}`}>{product.name}</Link>
+          <Link to={`/products/${product.slug}`}>{product.name}</Link>
         </h1>
         <span className="font-medium text-lg">{product.price}$</span>
       </div>
       <p className="text-slate-500">{product.description}</p>
       <div className="flex text-yellow-500">
-        <BsStarFill />
-        <BsStarFill />
-        <BsStarFill />
+        {Array(product.rate)
+          .fill(1)
+          .map((star) => (
+            <BsStarFill />
+          ))}
         <BsStarHalf />
         <BsStar />
       </div>
+
       <div className="flex justify-between px-2 py-3">
-        <AiFillHeart
-          onClick={(e) => e.target.classList.toggle('text-red-500')}
-          // className="absolute left-5 bottom-4 text-2xl cursor-pointer hover:opacity-90 text-gray-300"
-          className="text-2xl cursor-pointer hover:opacity-90 text-gray-300"
-        />
-        <BsCartPlus
-          className="text-[26px] cursor-pointer hover:opacity-90 text-slate-900"
-          onClick={() =>
-            addToCart(
-              product._id,
-              product.name,
-              product.price,
-              product.description,
-              product.category,
-              product.offer,
-              product.image,
-              product.rate
-            )
-          }
-        />
+        {/* like icon */}
+        <motion.div whileTap={{ scale: 1.1 }}>
+          <AiFillHeart
+            onClick={(e) => e.target.classList.toggle('text-red-500')}
+            className="text-2xl cursor-pointer hover:opacity-90 text-gray-300"
+          />
+        </motion.div>
+
+        {/* cart icon */}
+        <motion.div whileTap={{ scale: 1.1 }}>
+          <BsCartPlus
+            className="text-[26px] cursor-pointer hover:opacity-90 text-slate-900 hover:text-red-500 duration-100 ease-out"
+            onClick={() =>
+              addToCart(
+                product._id,
+                product.name,
+                product.price,
+                product.description,
+                product.category,
+                product.offer,
+                product.image,
+                product.rate
+              )
+            }
+          />
+        </motion.div>
       </div>
       {/* <svg
         xmlns="http://www.w3.org/2000/svg"
