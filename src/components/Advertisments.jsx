@@ -19,13 +19,16 @@ const Advertisments = () => {
           initial={{ x: -500 }}
           transition={{ delay: 0.5, duration: 1.2 }}
           animate={{ x: 0 }}
-          className="w-full md:w-1/2 relative flex justify-center items-center border-2 shadow-md rounded-md bg-white"
+          className="overflow-hidden w-full md:w-1/2 relative flex justify-center items-center border-2 shadow-md rounded-md bg-white"
         >
-          <img
-            src="./products/product-21.jpg"
-            className="aspect-[1/1] object-contain w-full h-full rounded-md"
-            alt=""
-          />
+          <div className="w-full h-full ">
+            <img
+              src="./products/product-21.jpg"
+              className="aspect-square object-contain w-full h-full rounded-md"
+              alt=""
+            />
+          </div>
+
           <div className="absolute flex gap-2 bottom-3 left-[50%] translate-x-[-50%]">
             <span className="w-4 h-4 rounded-full border-2 border-gray-300"></span>
             <span className="w-4 h-4 rounded-full border-2 border-gray-300"></span>

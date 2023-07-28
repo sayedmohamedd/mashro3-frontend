@@ -50,6 +50,7 @@ const Nav = ({ api }) => {
   const logout = () => {
     removeCookie('access_token');
     window.localStorage.removeItem('userId');
+    scrollTop();
   };
 
   return (
@@ -133,7 +134,7 @@ const Nav = ({ api }) => {
 
           {/* login & register */}
           {!cookie.access_token && (
-            <Link to="/login">
+            <Link to="/login" onClick={scrollTop}>
               <span>Login</span>
             </Link>
           )}
