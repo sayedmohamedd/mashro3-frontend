@@ -81,6 +81,7 @@ const Product = ({ product, loading }) => {
           whileTap={{
             scale: 1.1,
             color: 'text-slate-900',
+            transition: 0.5,
           }}
         >
           <BsCartPlus
