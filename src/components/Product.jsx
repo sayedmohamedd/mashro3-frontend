@@ -77,7 +77,12 @@ const Product = ({ product, loading }) => {
         </motion.div>
 
         {/* cart icon */}
-        <motion.div whileTap={{ scale: 1.1 }}>
+        <motion.div
+          whileTap={{
+            scale: 1.1,
+            color: 'text-slate-900',
+          }}
+        >
           <BsCartPlus
             className="text-[26px] cursor-pointer hover:opacity-90 text-slate-900 hover:text-red-500 duration-100 ease-out"
             onClick={() =>
