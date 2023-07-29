@@ -26,7 +26,7 @@ const MainPage = ({ api }) => {
       setLastestProducts(res.data);
     };
     fetchLatestProducts();
-  }, [api]);
+  }, [latestProducts, api]);
   return (
     <>
       <Advertisments />

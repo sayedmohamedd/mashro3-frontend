@@ -5,16 +5,20 @@ import Axios from 'axios';
 
 // icons
 import { IoMdArrowDropdown } from 'react-icons/io';
-import { AiOutlineShoppingCart } from 'react-icons/ai';
+import { AiOutlineShoppingCart, AiOutlineSearch } from 'react-icons/ai';
 
 // animation
 import { motion } from 'framer-motion';
 
 const Nav = ({ api }) => {
+  // cookie
+  const [cookie, setCookie, removeCookie] = useCookies(['access_token']);
   const [categories, setCategories] = useState([]);
   const [cart, setCart] = useState([]);
   const categoryDropDown = useRef();
-  const [cookie, setCookie, removeCookie] = useCookies(['access_token']);
+  const searchIcon = useRef(null);
+  const searchInput = useRef(null);
+  const [products, setProducts] = useState([]);
 
   // fetch categories
   useEffect(() => {
@@ -53,6 +57,24 @@ const Nav = ({ api }) => {
     scrollTop();
   };
 
+  const searchFunction = (searchValue) => {
+    if (searchValue !== '') {
+      Axios.post(api + 'api/products/search', { searchValue })
+        .then((res) => {
+          setProducts(res.data);
+          console.log(res.data);
+        })
+        .catch((err) => console.log(err));
+    } else {
+      setProducts([]);
+    }
+  };
+
+  // const toggleSearch = () => {
+  //   searchIcon.classList.add('hidden');
+  //   searchInput.classList.remove('flex');
+  // };
+
   return (
     <motion.nav
       initial={{ y: -50, opacity: 0 }}
@@ -73,11 +95,37 @@ const Nav = ({ api }) => {
           </Link>
         </div>
         {/* search */}
-        <input
-          type="search"
-          placeholder="Serach"
-          className="hidden lg:flex px-7 py-1 text-slate-900 rounded-3xl focus:outline-none "
-        />
+        <div className="hidden lg:flex flex-col" ref={searchInput}>
+          <input
+            type="search"
+            placeholder="Serach"
+            className={`px-10 py-1 text-slate-900 rounded-xl ${
+              products.length === 0 ? '' : 'rounded-br-none rounded-bl-none'
+            } focus:outline-none`}
+            onChange={(e) => searchFunction(e.target.value)}
+            onBlur={() => setProducts([])}
+            onFocus={(e) => searchFunction(e.target.value)}
+          />
+          <div className="relative">
+            {products && (
+              <ul
+                className={`rounded-bl-md rounded-br-md absolute w-full flex flex-col gap-1 ${
+                  products.length === 0 ? '' : 'p-2'
+                } bg-white text-slate-900`}
+              >
+                {products.map((product) => (
+                  <Link to={`/products/${product.slug}`}>
+                    <li key={product._id} className="flex gap-3 px-3">
+                      <img className="w-10 h-10" src={product.image} alt="" />
+                      <span className="font-medium">{product.name}</span>
+                    </li>
+                  </Link>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+
         <ul className="hidden md:flex space-x-5">
           <li>
             <Link to="/" onClick={scrollTop}>
@@ -115,13 +163,20 @@ const Nav = ({ api }) => {
             <Link to="/contact">Contact</Link>
           </li>
         </ul>
-        <div className="flex gap-4">
+        <div className="flex items-center gap-3">
+          <div>
+            <AiOutlineSearch
+              className=" flex lg:hidden cursor-pointer"
+              ref={searchIcon}
+              // onClick={toggleSearch}
+              size={24}
+            />
+          </div>
           <Link
             to={cookie.access_token ? '/cart' : '/login'}
             className="text-bold text-lg flex space-x-2 items-center relative"
             onClick={scrollTop}
           >
-            {/* <span>Cart</span> */}
             <div className="relative">
               <AiOutlineShoppingCart className="text-3xl" />
               {cookie.access_token && (

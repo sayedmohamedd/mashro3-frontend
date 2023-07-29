@@ -1,40 +1,76 @@
-// import React, { useRef } from 'react';
+import { useState } from 'react';
+
+// react icons
+import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs';
+import { RxDotFilled } from 'react-icons/rx';
 
 // Framer Motion Animation
 import { motion } from 'framer-motion';
 
 const Advertisments = () => {
-  // const imgsContainer = useRef(0);
-  // const slideFunction = () => {
-  //   for (let i = 0; i < imgsContainer.current.children.length; i++) {
-  //     imgsContainer.current.children[i].classList.toggle('flex');
-  //     imgsContainer.current.children[i].classList.toggle('hidden');
-  //   }
-  // };
+  const [currentIndex, setCurrentIndex] = useState(21);
+
+  const prevSlide = () => {
+    if (currentIndex === 21) {
+      setCurrentIndex(24);
+    } else {
+      setCurrentIndex((prev) => prev - 1);
+    }
+  };
+
+  const nextSlide = () => {
+    if (currentIndex === 24) {
+      setCurrentIndex(21);
+    } else {
+      setCurrentIndex((prev) => prev + 1);
+    }
+  };
   return (
     <section className="my-5">
-      <div className="container mx-auto px-3 py-2 flex flex-col md:flex-row gap-4  md:max-h-[60vh]">
+      <div className="container mx-auto px-3 py-2 flex flex-col md:flex-row gap-7 md:max-h-[60vh]">
         {/* slider */}
         <motion.div
           initial={{ x: -500 }}
           transition={{ delay: 0.5, duration: 1.2 }}
           animate={{ x: 0 }}
-          className="overflow-hidden w-full md:w-1/2 relative flex justify-center items-center border-2 shadow-md rounded-md bg-white"
+          className="w-full md:w-1/2 relative flex justify-center items-center border-2 shadow-md rounded-md bg-white"
         >
-          <div className="w-full h-full ">
-            <img
-              src="./products/product-21.jpg"
-              className="aspect-square object-contain w-full h-full rounded-md"
-              alt=""
-            />
-          </div>
-
-          <div className="absolute flex gap-2 bottom-3 left-[50%] translate-x-[-50%]">
-            <span className="w-4 h-4 rounded-full border-2 border-gray-300"></span>
-            <span className="w-4 h-4 rounded-full border-2 border-gray-300"></span>
-            <span className="w-4 h-4 rounded-full border-2 border-gray-300 "></span>
+          {/* slider */}
+          <div
+            className="w-full h-full bg-center bg-contain bg-no-repeat group duration-500 select-none"
+            style={{
+              backgroundImage: `url(./products/product-${currentIndex}.jpg)`,
+            }}
+          >
+            <div className="w-full h-full aspect-square object-contain"></div>
+            <div
+              onClick={nextSlide}
+              className="absolute hidden group-hover:block top-[50%] right-3 translate-y-[-50%] rounded-full p-1.5 cursor-pointer duration-75 ease-out  text-white"
+            >
+              <BsChevronCompactRight size={30} />
+            </div>
+            <div
+              onClick={prevSlide}
+              className="absolute hidden group-hover:block top-[50%] left-3 translate-y-[-50%] rounded-full p-1.5 cursor-pointer duration-75 ease-out text-white"
+            >
+              <BsChevronCompactLeft size={30} />
+            </div>
+            {/* Dots */}
+            <div className="absolute flex gap-2 bottom-[-25px] left-[50%] translate-x-[-50%]">
+              {Array(4)
+                .fill(1)
+                .map((item, index) => (
+                  <RxDotFilled
+                    onClick={() => setCurrentIndex(index + 21)}
+                    key={index}
+                    size={20}
+                    className="cursor-pointer text-white hover:text-gray-500 duration-100"
+                  />
+                ))}
+            </div>
           </div>
         </motion.div>
+
         {/* offers */}
         <motion.div
           initial={{ x: 500 }}

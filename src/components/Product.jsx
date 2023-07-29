@@ -24,8 +24,8 @@ const Product = ({ product, loading }) => {
     } else {
       const user_id = window.localStorage.getItem('userId');
       await Axios.post(
-        'https://mashro3-backend.onrender.com/api/cart/addproduct',
-        // 'http://localhost:3002/api/cart/addproduct',
+        // 'https://mashro3-backend.onrender.com/api/cart/addproduct',
+        'http://localhost:3002/api/cart/addproduct',
         {
           user_id,
           name,
@@ -60,8 +60,8 @@ const Product = ({ product, loading }) => {
       <div className="flex text-yellow-500">
         {Array(product.rate)
           .fill(1)
-          .map((star) => (
-            <BsStarFill />
+          .map((star, index) => (
+            <BsStarFill key={index} />
           ))}
         <BsStarHalf />
         <BsStar />
@@ -80,9 +80,9 @@ const Product = ({ product, loading }) => {
         <motion.div
           whileTap={{
             scale: 1.1,
-            color: 'text-slate-900',
-            transition: 0.5,
+            color: '#182032',
           }}
+          transition={{ duration: 0.6 }}
         >
           <BsCartPlus
             className="text-[26px] cursor-pointer hover:opacity-90 text-slate-900 hover:text-red-500 duration-100 ease-out"

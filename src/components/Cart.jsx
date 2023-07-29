@@ -35,6 +35,16 @@ const Cart = ({ api }) => {
     window.scrollTo(0, 0);
   };
 
+  const emptyCart = async () => {
+    const user_id = window.localStorage.getItem('userId');
+    await Axios.post(api + `api/cart/emptyCart`, { user_id })
+      .then((res) => {
+        setProducts([]);
+        setTotalPrice(determineTotalPrice(res.data));
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <>
       <section className="min-h-[100vh]">
@@ -58,7 +68,10 @@ const Cart = ({ api }) => {
               <span> {totalPrice} $</span>
             </h1>
             <div className="flex flex-col md:flex-row gap-3">
-              <button className="font-medium px-3 py-2 bg-green-400 rounded-md text-sm md:text-base">
+              <button
+                onClick={emptyCart}
+                className="font-medium px-3 py-2 bg-green-400 rounded-md text-sm md:text-base"
+              >
                 EMPTY CART
               </button>
               <Link to="/checkout">
