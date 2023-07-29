@@ -61,10 +61,14 @@ const Advertisments = () => {
                 .fill(1)
                 .map((item, index) => (
                   <RxDotFilled
-                    onClick={() => setCurrentIndex(index + 21)}
+                    onClick={(e) => setCurrentIndex(index + 21)}
                     key={index}
                     size={20}
-                    className="cursor-pointer text-white hover:text-gray-500 duration-100"
+                    className={`cursor-pointer ${
+                      currentIndex === index + 21
+                        ? 'text-gray-500'
+                        : 'text-white'
+                    } hover:text-gray-500 duration-100`}
                   />
                 ))}
             </div>
