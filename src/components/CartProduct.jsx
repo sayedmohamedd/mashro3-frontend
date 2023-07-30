@@ -1,7 +1,8 @@
 import Axios from 'axios';
+import { Link } from 'react-router-dom';
 const CartProduct = ({ product }) => {
-  const api = 'https://mashro3-backend.onrender.com/';
-  // const api = 'http://localhost:3002/';
+  // const api = 'https://mashro3-backend.onrender.com/';
+  const api = 'http://localhost:3002/';
 
   // Delete Product Function
   const deleteProduct = async (product_id) => {
@@ -9,7 +10,9 @@ const CartProduct = ({ product }) => {
     await Axios.post(api + 'api/cart/removeProduct', {
       user_id,
       product_id,
-    }).then((res) => console.log(res.data));
+    })
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err));
   };
 
   // Increase Product Function
@@ -18,7 +21,9 @@ const CartProduct = ({ product }) => {
     await Axios.post(api + 'api/cart/increaseProduct', {
       user_id,
       product_id,
-    }).then((res) => console.log(res.data));
+    })
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err));
   };
 
   // Decrease Product Function
@@ -28,7 +33,9 @@ const CartProduct = ({ product }) => {
       await Axios.post(api + 'api/cart/decreaseProduct', {
         user_id,
         product_id,
-      }).then((res) => console.log(res.data));
+      })
+        .then((res) => console.log(res.data))
+        .catch((err) => console.log(err));
     }
   };
 
@@ -36,7 +43,9 @@ const CartProduct = ({ product }) => {
     <div className="md:w-[30%] lg:w-[20%] flex flex-col p-3 shadow-xl rounded-xl bg-white">
       <img src={product.image} alt={product.name} className="aspect-square" />
       <div className="flex justify-between mt-4">
-        <h1 className="font-medium text-xl">{product.name}</h1>
+        <Link to={`/products/${product.slug}`}>
+          <h1 className="font-medium text-xl">{product.name}</h1>
+        </Link>
         <span className="font-medium text-lg">
           {product.price * product.number} $
         </span>

@@ -57,9 +57,9 @@ const Nav = ({ api }) => {
     scrollTop();
   };
 
-  const searchFunction = (searchValue) => {
+  const searchFunction = async (searchValue) => {
     if (searchValue !== '') {
-      Axios.post(api + 'api/products/search', { searchValue })
+      await Axios.post(api + 'api/products/search', { searchValue })
         .then((res) => {
           setProducts(res.data);
           console.log(res.data);
@@ -103,10 +103,14 @@ const Nav = ({ api }) => {
               products.length === 0 ? '' : 'rounded-br-none rounded-bl-none'
             } focus:outline-none`}
             onChange={(e) => searchFunction(e.target.value)}
-            onBlur={() => setProducts([])}
+            // onBlur={() => setProducts([])}
             onFocus={(e) => searchFunction(e.target.value)}
           />
-          <div className="relative">
+          <div
+            className="relative"
+            onMouseLeave={() => searchFunction('')}
+            onClick={() => searchFunction('')}
+          >
             {products && (
               <ul
                 className={`rounded-bl-md rounded-br-md absolute w-full flex flex-col gap-1 ${
@@ -116,7 +120,11 @@ const Nav = ({ api }) => {
                 {products.map((product) => (
                   <Link to={`/products/${product.slug}`}>
                     <li key={product._id} className="flex gap-3 px-3">
-                      <img className="w-10 h-10" src={product.image} alt="" />
+                      <img
+                        className="w-10 h-10"
+                        src={product.image}
+                        alt={product.name}
+                      />
                       <span className="font-medium">{product.name}</span>
                     </li>
                   </Link>

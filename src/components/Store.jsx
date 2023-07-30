@@ -10,11 +10,12 @@ const Store = ({ api }) => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const res = await Axios.get(
-        `${api}api/products/${pageNumber}/${category}`
-      ).catch((err) => console.log(err));
-      setProducts(res.data);
-      setLoading(false);
+      await Axios.get(`${api}api/products/${pageNumber}/${category}`)
+        .then((res) => {
+          setProducts(res.data);
+          setLoading(false);
+        })
+        .catch((err) => console.log(err));
     };
     // const fetchProducts = async () => {
     //   await Axios.get(`${api}api/products/${pageNumber}/${category}`)

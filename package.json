@@ -9,6 +9,7 @@
     "axios": "^1.4.0",
     "framer-motion": "^10.13.1",
     "react": "^18.2.0",
+    "react-auth-kit": "^2.12.4",
     "react-cookie": "^4.1.1",
     "react-dom": "^18.2.0",
     "react-icons": "^4.10.1",

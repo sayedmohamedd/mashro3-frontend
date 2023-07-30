@@ -17,15 +17,16 @@ const Product = ({ product, loading }) => {
     category,
     offer,
     image,
-    rate
+    rate,
+    slug
   ) => {
     if (!cookie.access_token) {
       navigate('/login');
     } else {
       const user_id = window.localStorage.getItem('userId');
       await Axios.post(
-        'https://mashro3-backend.onrender.com/api/cart/addproduct',
-        // 'http://localhost:3002/api/cart/addproduct',
+        // 'https://mashro3-backend.onrender.com/api/cart/addproduct',
+        'http://localhost:3002/api/cart/addproduct',
         {
           user_id,
           name,
@@ -36,6 +37,7 @@ const Product = ({ product, loading }) => {
           offer,
           image,
           rate,
+          slug,
         }
       )
         .then((res) => console.log(res.data))
@@ -95,7 +97,8 @@ const Product = ({ product, loading }) => {
                 product.category,
                 product.offer,
                 product.image,
-                product.rate
+                product.rate,
+                product.slug
               )
             }
           />

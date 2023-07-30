@@ -1,18 +1,70 @@
+import { useEffect, useState } from 'react';
 import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
+import { useNavigate, useParams } from 'react-router-dom';
+import Axios from 'axios';
+import { useCookies } from 'react-cookie';
+import { motion } from 'framer-motion';
 
-const ProductPage = ({ api, product }) => {
-  const AddToCart = () => {};
+const ProductPage = ({ api }) => {
+  const [product, setProduct] = useState({});
+  const { slug } = useParams();
+  const navigate = useNavigate();
+  const [cookie, setCookie, removeCookie] = useCookies(['access_token']);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      await Axios.get(api + `api/products/${slug}`)
+        .then((res) => {
+          setProduct(res.data);
+        })
+        .catch((err) => console.log(err));
+    };
+    fetchProduct();
+  }, [slug, api]);
+
+  const addToCart = async (
+    id,
+    name,
+    price,
+    description,
+    category,
+    offer,
+    image,
+    rate,
+    slug
+  ) => {
+    if (!cookie.access_token) {
+      navigate('/login');
+    } else {
+      const user_id = window.localStorage.getItem('userId');
+      await Axios.post(api + 'api/cart/addproduct', {
+        user_id,
+        name,
+        product_id: id,
+        price,
+        description,
+        category,
+        offer,
+        image,
+        rate,
+        slug,
+      })
+        .then((res) => console.log(res.data))
+        .catch((err) => console.log(err));
+    }
+  };
+
   return (
     <section className="min-h-[100vh]">
       <h1 className="text-center text-3xl font-medium text-slate-900 mt-12 my-7">
-        Blue T-Shirt
+        {product.name}
       </h1>
       <div className="container mx-auto my-5 p-5 flex flex-col md:flex-row gap-7 rounded-md bg-white">
         <div className="md:w-1/2 max-h-[70vh] flex justify-center items-center p-5 rounded-md">
           <img
-            src="/products/product-1.jpg"
+            src={product.image?.slice(1, product.image?.length)}
             className="aspect-square object-contain max-h-[90%] max-w-[90%] md:max-h-[100%] md:max-w-[100%]"
-            alt="Blue T-Shirt"
+            alt={product.name}
           />
         </div>
         <div className="md:w-[40%] flex flex-col justify-evenly">
@@ -24,23 +76,37 @@ const ProductPage = ({ api, product }) => {
             do with all the evid… Problem: the paragraph has more than one
           </p>
           <p className="text-slate-500">
-            Price: <span>55 $</span>
+            Price: <span>{product.price} $</span>
           </p>
           <div className="flex my-3 text-yellow-500">
             {Array(3)
               .fill(1)
-              .map(() => (
-                <BsStarFill />
+              .map((star, index) => (
+                <BsStarFill key={index} />
               ))}
             <BsStarHalf />
             <BsStar />
           </div>
-          <button
-            onClick={AddToCart}
+          <motion.button
+            whileTap={{ scale: 1.1, opacity: 0.9 }}
+            transition={{ duration: 0.5 }}
+            onClick={() =>
+              addToCart(
+                product._id,
+                product.name,
+                product.price,
+                product.description,
+                product.category,
+                product.offer,
+                product.image,
+                product.rate,
+                product.slug
+              )
+            }
             className="px-7 py-2.5 rounded-md bg-green-400 text-white"
           >
             Add To Cart
-          </button>
+          </motion.button>
         </div>
       </div>
     </section>

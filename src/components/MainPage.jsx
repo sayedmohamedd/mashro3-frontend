@@ -13,8 +13,9 @@ const MainPage = ({ api }) => {
   // Fetch Products
   useEffect(() => {
     const fetchProducts = async () => {
-      const res = await Axios.get(api + 'api/products');
-      setProducts(res.data);
+      await Axios.get(api + 'api/products')
+        .then((res) => setProducts(res.data))
+        .catch((err) => console.log(err));
     };
     fetchProducts();
   }, [api]);
@@ -22,8 +23,9 @@ const MainPage = ({ api }) => {
   // Fetch Latest Products
   useEffect(() => {
     const fetchLatestProducts = async () => {
-      const res = await Axios.get(api + 'api/latestProducts');
-      setLastestProducts(res.data);
+      await Axios.get(api + 'api/latestProducts')
+        .then((res) => setLastestProducts(res.data))
+        .catch((err) => console.log(err));
     };
     fetchLatestProducts();
   }, [latestProducts, api]);

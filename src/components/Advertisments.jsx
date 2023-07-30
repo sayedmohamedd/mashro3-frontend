@@ -56,14 +56,14 @@ const Advertisments = () => {
               <BsChevronCompactLeft size={30} />
             </div>
             {/* Dots */}
-            <div className="absolute flex gap-2 bottom-[-25px] left-[50%] translate-x-[-50%]">
+            <div className="absolute flex gap-2 bottom-[-27px] left-[50%] translate-x-[-50%]">
               {Array(4)
                 .fill(1)
                 .map((item, index) => (
                   <RxDotFilled
                     onClick={(e) => setCurrentIndex(index + 21)}
                     key={index}
-                    size={20}
+                    size={22}
                     className={`cursor-pointer ${
                       currentIndex === index + 21
                         ? 'text-gray-500'
