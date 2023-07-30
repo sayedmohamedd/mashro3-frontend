@@ -7,7 +7,7 @@ const Register = ({ api }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
-  const [result, setResult] = useState();
+  const [result, setResult] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,13 +19,14 @@ const Register = ({ api }) => {
     // if (username && email && password && phone) {
     Axios.post(api + 'api/register', { username, email, password, phone })
       .then((res) => {
-        setResult(res.data.msg);
+        setResult(res.data);
         if (res.data.success) {
           setUsername('');
           setEmail('');
           setPassword('');
           setPhone('');
           navigate('/login');
+          setResult([]);
         }
       })
       .catch((err) => console.log(err));
@@ -37,18 +38,18 @@ const Register = ({ api }) => {
   };
 
   return (
-    <section className="conatiner mx-auto min-h-[100vh]">
-      {/* <div className="w-[20%] mx-auto text-center flex flex-col gap-1">
-        {result?.map((msg) => (
-          <p key={msg} className="text-red-500 bg-gray-300 px-2">
-            {msg}
-          </p>
-        ))}
-      </div> */}
+    <section className="relative conatiner mx-auto min-h-[100vh]">
       <form
         onSubmit={submitForm}
         className="flex flex-col gap-4 mx-auto w-[330px] mt-8 rounded-md px-6 py-5 shadow-md bg-white"
       >
+        <div className="w-full mx-auto text-center flex flex-col gap-1">
+          {result?.map((item) => (
+            <p key={item.msg} className="text-red-500">
+              {item.msg}
+            </p>
+          ))}
+        </div>
         <h1 className="text-center font-bold text-2xl text-slate-900">
           Register
         </h1>
@@ -73,7 +74,6 @@ const Register = ({ api }) => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          minLength="8"
         />
         <label htmlFor="password" className="text-lg text-slate-800">
           Password

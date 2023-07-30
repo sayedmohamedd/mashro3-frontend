@@ -18,7 +18,6 @@ const Login = ({ api }) => {
     Axios.post(`${api}api/login`, { email, password })
       .then((res) => {
         setResult(res.data);
-        console.log(res.data);
         if (res.data.success) {
           setEmail('');
           setPassword('');
@@ -40,6 +39,13 @@ const Login = ({ api }) => {
         onSubmit={submitForm}
         className="flex flex-col gap-4 mx-auto w-[330px] mt-10 rounded-md px-6 py-5 bg-white shadow-md"
       >
+        <div className="w-full mx-auto text-center flex flex-col gap-1">
+          {result?.map((item) => (
+            <p key={item.msg} className="text-red-500">
+              {item.msg}
+            </p>
+          ))}
+        </div>
         <h1 className="text-center font-bold text-2xl text-slate-900">Login</h1>
         <label htmlFor="email" className="text-lg text-slate-800">
           Email

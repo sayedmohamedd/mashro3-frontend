@@ -86,12 +86,7 @@ const Nav = ({ api }) => {
         {/* logo */}
         <div>
           <Link to="/" onClick={scrollTop}>
-            <img
-              src={require('./../images/commerce.png')}
-              alt=""
-              width="44px"
-              height="44px"
-            />
+            <img src="./commerce.png" alt="" width="44px" height="44px" />
           </Link>
         </div>
         {/* search */}
@@ -103,7 +98,6 @@ const Nav = ({ api }) => {
               products.length === 0 ? '' : 'rounded-br-none rounded-bl-none'
             } focus:outline-none`}
             onChange={(e) => searchFunction(e.target.value)}
-            // onBlur={() => setProducts([])}
             onFocus={(e) => searchFunction(e.target.value)}
           />
           <div
