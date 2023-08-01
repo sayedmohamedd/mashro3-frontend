@@ -21,7 +21,7 @@ const Nav = ({ api }) => {
 
   // state
   const [categories, setCategories] = useState([]);
-  const [cart, setCart] = useState(0);
+  const [cart, setCart] = useState([]);
   const [products, setProducts] = useState([]);
   const categoryDropDown = useRef(null);
   const searchIcon = useRef(null);
