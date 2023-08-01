@@ -22,7 +22,7 @@ const CartProduct = ({ product }) => {
 
   // Increase Product Function
   const increase = async (product_id) => {
-    const user_id = cookie['_auth'].userId;
+    const user_id = cookie['_auth_state']['userId'];
     await Axios.post(api + 'api/cart/increaseProduct', {
       user_id,
       product_id,
@@ -34,7 +34,7 @@ const CartProduct = ({ product }) => {
   // Decrease Product Function
   const decrease = async (product_id, number) => {
     if (number !== 1) {
-      const user_id = cookie['_auth'].userId;
+      const user_id = cookie['_auth_state']['userId'];
       await Axios.post(api + 'api/cart/decreaseProduct', {
         user_id,
         product_id,

@@ -40,7 +40,7 @@ const Nav = ({ api }) => {
   // fetch cart count
   useEffect(() => {
     const fetchCart = async () => {
-      const user_id = cookie['_auth']['user_id'];
+      const user_id = cookie['_auth_state']['userId'];
       await Axios.post(api + `api/cart`, { user_id })
         .then((res) => {
           setCart(res.data);

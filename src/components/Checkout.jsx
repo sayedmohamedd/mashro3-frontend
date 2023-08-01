@@ -28,7 +28,7 @@ const Checkout = ({ api }) => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const user_id = cookie['_auth'].userId;
+      const user_id = cookie['_auth_state']['userId'];
       await Axios.post(api + `api/cart`, { user_id })
         .then((res) => {
           setProducts(res.data);

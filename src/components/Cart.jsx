@@ -13,8 +13,9 @@ const Cart = ({ api }) => {
   const [totalPrice, setTotalPrice] = useState(0);
   // const AuthUser = useAuthUser();
   useEffect(() => {
+    console.log();
     const fetchProducts = async () => {
-      const user_id = cookie['_auth'].userId;
+      const user_id = cookie['_auth_state']['userId'];
       await Axios.post(api + `api/cart`, { user_id })
         .then((res) => {
           setProducts(res.data);
@@ -42,7 +43,7 @@ const Cart = ({ api }) => {
   };
 
   const emptyCart = async () => {
-    const user_id = cookie['_auth'].userId;
+    const user_id = cookie['_auth_state']['userId'];
     await Axios.post(api + `api/cart/emptyCart`, { user_id })
       .then((res) => {
         setProducts([]);
