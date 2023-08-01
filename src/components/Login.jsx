@@ -1,29 +1,40 @@
-import Axios from 'axios';
+// react
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
+import Axios from 'axios';
+
+// react auth kit
+import { useSignIn } from 'react-auth-kit';
+
 const Login = ({ api }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [result, setResult] = useState();
   const navigate = useNavigate();
-  const [cookie, setCookie, removeCookie] = useCookies(['access_token']);
-
+  const signIn = useSignIn();
+  // const AuthUser = useAuthUser();
   useEffect(() => {
     scrollTop();
   }, []);
 
   const submitForm = (e) => {
     e.preventDefault();
-    Axios.post(`${api}api/login`, { email, password })
+    Axios.post(api + 'api/login', { email, password })
       .then((res) => {
         setResult(res.data);
         if (res.data.success) {
+          signIn({
+            token: res.data.token,
+            tokenType: 'Bearer',
+            expiresIn: 3600,
+            authState: {
+              userId: res.data.userId,
+              email,
+              username: res.data.username,
+            },
+          });
           setEmail('');
           setPassword('');
-          setCookie('access_token', res.data.token);
-          window.localStorage.setItem('userId', res.data.userId);
-          window.localStorage.setItem('username', res.data.username);
           navigate('/');
         }
       })

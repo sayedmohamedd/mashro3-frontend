@@ -10,15 +10,22 @@ import { AiOutlineShoppingCart, AiOutlineSearch } from 'react-icons/ai';
 // animation
 import { motion } from 'framer-motion';
 
+// react auth
+import { useAuthUser, useSignOut } from 'react-auth-kit';
+
 const Nav = ({ api }) => {
-  // cookie
-  const [cookie, setCookie, removeCookie] = useCookies(['access_token']);
+  // auth
+  const AuthUser = useAuthUser();
+  const signOut = useSignOut();
+  const [cookie] = useCookies(['_auth']);
+
+  // state
   const [categories, setCategories] = useState([]);
-  const [cart, setCart] = useState([]);
-  const categoryDropDown = useRef();
+  const [cart, setCart] = useState(0);
+  const [products, setProducts] = useState([]);
+  const categoryDropDown = useRef(null);
   const searchIcon = useRef(null);
   const searchInput = useRef(null);
-  const [products, setProducts] = useState([]);
 
   // fetch categories
   useEffect(() => {
@@ -30,18 +37,20 @@ const Nav = ({ api }) => {
     fetchCategories();
   }, [api]);
 
-  // fetch cart
+  // fetch cart count
   useEffect(() => {
     const fetchCart = async () => {
-      const user_id = window.localStorage.getItem('userId');
+      const user_id = cookie['_auth']['user_id'];
       await Axios.post(api + `api/cart`, { user_id })
         .then((res) => {
           setCart(res.data);
         })
         .catch((err) => console.log(err));
     };
-    fetchCart();
-  }, [cart, api]);
+    if (cookie['_auth']) {
+      fetchCart();
+    }
+  }, [cart, api, cookie]);
 
   useEffect(() => {
     scrollTop();
@@ -52,8 +61,7 @@ const Nav = ({ api }) => {
   };
 
   const logout = () => {
-    removeCookie('access_token');
-    window.localStorage.removeItem('userId');
+    signOut();
     scrollTop();
   };
 
@@ -175,13 +183,13 @@ const Nav = ({ api }) => {
             />
           </div>
           <Link
-            to={cookie.access_token ? '/cart' : '/login'}
+            to="/cart"
             className="text-bold text-lg flex space-x-2 items-center relative"
             onClick={scrollTop}
           >
             <div className="relative">
               <AiOutlineShoppingCart className="text-3xl" />
-              {cookie.access_token && (
+              {AuthUser() && (
                 <span className="absolute top-[-15px] right-[-5px] text-red-500">
                   {cart.length}
                 </span>
@@ -190,12 +198,12 @@ const Nav = ({ api }) => {
           </Link>
 
           {/* login & register */}
-          {!cookie.access_token && (
+          {!AuthUser() && (
             <Link to="/login" onClick={scrollTop}>
               <span>Login</span>
             </Link>
           )}
-          {cookie.access_token && (
+          {AuthUser() && (
             <Link to="/" onClick={logout}>
               <span>Logout</span>
             </Link>

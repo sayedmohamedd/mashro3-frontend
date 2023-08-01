@@ -1,12 +1,17 @@
 import Axios from 'axios';
 import { Link } from 'react-router-dom';
+
+// react auth
+// import { useAuthUser } from 'react-auth-kit';
+import { useCookies } from 'react-cookie';
+
 const CartProduct = ({ product }) => {
   const api = 'https://mashro3-backend.onrender.com/';
   // const api = 'http://localhost:3002/';
-
+  const [cookie] = useCookies(['_auth']);
   // Delete Product Function
   const deleteProduct = async (product_id) => {
-    const user_id = window.localStorage.getItem('userId');
+    const user_id = cookie['_auth'].userId;
     await Axios.post(api + 'api/cart/removeProduct', {
       user_id,
       product_id,
@@ -17,7 +22,7 @@ const CartProduct = ({ product }) => {
 
   // Increase Product Function
   const increase = async (product_id) => {
-    const user_id = window.localStorage.getItem('userId');
+    const user_id = cookie['_auth'].userId;
     await Axios.post(api + 'api/cart/increaseProduct', {
       user_id,
       product_id,
@@ -29,7 +34,7 @@ const CartProduct = ({ product }) => {
   // Decrease Product Function
   const decrease = async (product_id, number) => {
     if (number !== 1) {
-      const user_id = window.localStorage.getItem('userId');
+      const user_id = cookie['_auth'].userId;
       await Axios.post(api + 'api/cart/decreaseProduct', {
         user_id,
         product_id,

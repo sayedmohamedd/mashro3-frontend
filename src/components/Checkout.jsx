@@ -1,11 +1,20 @@
+// react
 import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
+
+// cookies
+import { useCookies } from 'react-cookie';
+
+// react auth
+import { useAuthUser } from 'react-auth-kit';
+
 const Checkout = ({ api }) => {
+  const [cookie] = useCookies(['_auth']);
+  const AuthUser = useAuthUser();
   const shipping = useRef(0);
   const order = useRef(0);
   const bill = useRef(0);
-
   const [first_name, setFirstName] = useState('');
   const [last_name, setLastName] = useState('');
   const [address, setAddress] = useState('');
@@ -19,7 +28,7 @@ const Checkout = ({ api }) => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const user_id = window.localStorage.getItem('userId');
+      const user_id = cookie['_auth'].userId;
       await Axios.post(api + `api/cart`, { user_id })
         .then((res) => {
           setProducts(res.data);
@@ -28,7 +37,7 @@ const Checkout = ({ api }) => {
         .catch((err) => console.log(err));
     };
     fetchProducts();
-  }, [products, api]);
+  }, [products, api, cookie]);
 
   useEffect(() => {
     scrollTop();
@@ -267,8 +276,7 @@ const Checkout = ({ api }) => {
               {/* bill */}
               <div ref={bill} className=" hidden w-full">
                 <h3 className="font-medium text-xl text-heading my-5">
-                  Thank You for your purchase,{' '}
-                  {window.localStorage.getItem('username')}
+                  Thank You for your purchase, {AuthUser().username}
                 </h3>
                 <p className="my-2 text-slate-600">Order-ref:JDSJFHSJ-213681</p>
                 <Link to="/">

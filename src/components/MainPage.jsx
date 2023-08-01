@@ -7,18 +7,19 @@ import Axios from 'axios';
 import { Link } from 'react-router-dom';
 
 const MainPage = ({ api }) => {
-  const [products, setProducts] = useState([]);
+  // const [products, setProducts] = useState([]);
   const [latestProducts, setLastestProducts] = useState([]);
-
+  const [clothes, setClothes] = useState([]);
+  const [elecrtonics, setElecrtonics] = useState([]);
   // Fetch Products
-  useEffect(() => {
-    const fetchProducts = async () => {
-      await Axios.get(api + 'api/products')
-        .then((res) => setProducts(res.data))
-        .catch((err) => console.log(err));
-    };
-    fetchProducts();
-  }, [api]);
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     await Axios.get(api + 'api/products')
+  //       .then((res) => setProducts(res.data))
+  //       .catch((err) => console.log(err));
+  //   };
+  //   fetchProducts();
+  // }, [api]);
 
   // Fetch Latest Products
   useEffect(() => {
@@ -29,6 +30,27 @@ const MainPage = ({ api }) => {
     };
     fetchLatestProducts();
   }, [latestProducts, api]);
+
+  // Fetch Clothes
+  useEffect(() => {
+    const fetchClothes = async () => {
+      await Axios.get(`${api}api/products/1/clothes`)
+        .then((res) => setClothes(res.data))
+        .catch((err) => console.log(err));
+    };
+    fetchClothes();
+  }, [clothes, api]);
+
+  // Fetch Electronics
+  useEffect(() => {
+    const fetchClothes = async () => {
+      await Axios.get(`${api}api/products/1/electronics`)
+        .then((res) => setElecrtonics(res.data))
+        .catch((err) => console.log(err));
+    };
+    fetchClothes();
+  }, [elecrtonics, api]);
+
   return (
     <>
       <Advertisments />
@@ -62,7 +84,7 @@ const MainPage = ({ api }) => {
         <div className="container mx-auto px-6 py-5 text-center rounded-3xl shadow-2xl bg-white">
           <h1 className="mb-5 text-3xl font-medium text-heading">Clothes</h1>
           <div className="flex flex-col md:flex-row justify-between gap-6">
-            {products.slice(0, 5).map((product) => (
+            {clothes.slice(0, 5).map((product) => (
               <Product product={product} key={product._id} />
             ))}
           </div>
@@ -81,7 +103,7 @@ const MainPage = ({ api }) => {
             Elecrtonics
           </h1>
           <div className="flex flex-col md:flex-row justify-between gap-6">
-            {products.slice(0, 5).map((product) => (
+            {elecrtonics.slice(0, 5).map((product) => (
               <Product product={product} key={product._id} />
             ))}
           </div>

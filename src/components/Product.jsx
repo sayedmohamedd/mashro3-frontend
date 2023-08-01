@@ -5,9 +5,11 @@ import { BsStarFill, BsStarHalf, BsStar, BsCartPlus } from 'react-icons/bs';
 import Axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { motion } from 'framer-motion';
+import { useAuthUser } from 'react-auth-kit';
 
 const Product = ({ product, loading }) => {
-  const [cookie, setCookie, removeCookie] = useCookies(['access_token']);
+  const [cookie] = useCookies(['_auth']);
+  const AuthUser = useAuthUser();
   const navigate = useNavigate();
   const addToCart = async (
     id,
@@ -20,10 +22,10 @@ const Product = ({ product, loading }) => {
     rate,
     slug
   ) => {
-    if (!cookie.access_token) {
+    if (!cookie['_auth']) {
       navigate('/login');
     } else {
-      const user_id = window.localStorage.getItem('userId');
+      const { user_id } = AuthUser();
       await Axios.post(
         'https://mashro3-backend.onrender.com/api/cart/addproduct',
         // 'http://localhost:3002/api/cart/addproduct',

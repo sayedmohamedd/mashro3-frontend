@@ -1,15 +1,22 @@
+// react
 import { useEffect, useState } from 'react';
-import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
 import { useNavigate, useParams } from 'react-router-dom';
 import Axios from 'axios';
-import { useCookies } from 'react-cookie';
+
+// icons
+import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
+
+// react auth
+import { useAuthUser } from 'react-auth-kit';
+
+// framer motion animation
 import { motion } from 'framer-motion';
 
 const ProductPage = ({ api }) => {
   const [product, setProduct] = useState({});
   const { slug } = useParams();
   const navigate = useNavigate();
-  const [cookie, setCookie, removeCookie] = useCookies(['access_token']);
+  const AuthUser = useAuthUser();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -33,10 +40,10 @@ const ProductPage = ({ api }) => {
     rate,
     slug
   ) => {
-    if (!cookie.access_token) {
+    if (AuthUser()) {
       navigate('/login');
     } else {
-      const user_id = window.localStorage.getItem('userId');
+      const { user_id } = AuthUser();
       await Axios.post(api + 'api/cart/addproduct', {
         user_id,
         name,

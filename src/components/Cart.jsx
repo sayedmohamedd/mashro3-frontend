@@ -2,13 +2,19 @@ import { useEffect, useState } from 'react';
 import CartProduct from './CartProduct';
 import { Link } from 'react-router-dom';
 import Axios from 'axios';
+
+// cookies
+// import { useAuthUser } from 'react-auth-kit';
+import { useCookies } from 'react-cookie';
+
 const Cart = ({ api }) => {
+  const [cookie] = useCookies(['_auth']);
   const [products, setProducts] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
-
+  // const AuthUser = useAuthUser();
   useEffect(() => {
     const fetchProducts = async () => {
-      const user_id = window.localStorage.getItem('userId');
+      const user_id = cookie['_auth'].userId;
       await Axios.post(api + `api/cart`, { user_id })
         .then((res) => {
           setProducts(res.data);
@@ -17,7 +23,7 @@ const Cart = ({ api }) => {
         .catch((err) => console.log(err));
     };
     fetchProducts();
-  }, [products, api]);
+  }, [products, api, cookie]);
 
   useEffect(() => {
     scrollTop();
@@ -36,7 +42,7 @@ const Cart = ({ api }) => {
   };
 
   const emptyCart = async () => {
-    const user_id = window.localStorage.getItem('userId');
+    const user_id = cookie['_auth'].userId;
     await Axios.post(api + `api/cart/emptyCart`, { user_id })
       .then((res) => {
         setProducts([]);
