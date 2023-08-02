@@ -17,7 +17,7 @@ const Nav = ({ api }) => {
   // auth
   const AuthUser = useAuthUser();
   const signOut = useSignOut();
-  const [cookie] = useCookies(['_auth']);
+  const [cookie] = useCookies();
 
   // state
   const [categories, setCategories] = useState([]);
@@ -47,7 +47,7 @@ const Nav = ({ api }) => {
         })
         .catch((err) => console.log(err));
     };
-    if (cookie['_auth']) {
+    if (cookie['_auth_state']) {
       fetchCart();
     }
   }, [cart, api, cookie]);
