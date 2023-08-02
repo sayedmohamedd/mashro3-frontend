@@ -33,12 +33,12 @@ const MainPage = ({ api }) => {
 
   // Fetch Mobiles
   useEffect(() => {
-    const fetchClothes = async () => {
+    const fetchMobiles = async () => {
       await Axios.get(`${api}api/products/1/mobiles/default`)
-        .then((res) => setClothes(res.data))
+        .then((res) => setMobiles(res.data))
         .catch((err) => console.log(err));
     };
-    fetchClothes();
+    fetchMobiles();
   }, [mobiles, api]);
 
   // Fetch Electronics
