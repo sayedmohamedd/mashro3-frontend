@@ -77,7 +77,7 @@ const MainPage = ({ api }) => {
       {/* clothes */}
       <section className="my-12">
         <div className="container mx-auto px-6 py-5 text-center rounded-3xl shadow-2xl bg-white">
-          <h1 className="mb-5 text-3xl font-medium text-heading">Mobiles</h1>
+          <h1 className="mb-5 text-3xl font-medium text-heading">Clothes</h1>
           <div className="flex flex-col md:flex-row justify-between gap-6">
             {clothes.slice(0, 5).map((product) => (
               <Product product={product} key={product._id} />
@@ -94,7 +94,7 @@ const MainPage = ({ api }) => {
       {/* mobiles */}
       <section className="my-12">
         <div className="container mx-auto px-6 py-5 text-center rounded-3xl shadow-2xl bg-white">
-          <h1 className="mb-5 text-3xl font-medium text-heading">Clothes</h1>
+          <h1 className="mb-5 text-3xl font-medium text-heading">Mobiles</h1>
           <div className="flex flex-col md:flex-row justify-between gap-6">
             {mobiles.slice(0, 5).map((product) => (
               <Product product={product} key={product._id} />
