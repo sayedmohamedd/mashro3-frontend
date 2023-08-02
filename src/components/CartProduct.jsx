@@ -8,10 +8,10 @@ import { useCookies } from 'react-cookie';
 const CartProduct = ({ product }) => {
   const api = 'https://mashro3-backend.onrender.com/';
   // const api = 'http://localhost:3002/';
-  const [cookie] = useCookies(['_auth']);
+  const [cookie] = useCookies();
   // Delete Product Function
   const deleteProduct = async (product_id) => {
-    const user_id = cookie['_auth'].userId;
+    const user_id = cookie['_auth_state'].userId;
     await Axios.post(api + 'api/cart/removeProduct', {
       user_id,
       product_id,

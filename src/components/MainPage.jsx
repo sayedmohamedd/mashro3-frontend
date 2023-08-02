@@ -7,19 +7,9 @@ import Axios from 'axios';
 import { Link } from 'react-router-dom';
 
 const MainPage = ({ api }) => {
-  // const [products, setProducts] = useState([]);
   const [latestProducts, setLastestProducts] = useState([]);
   const [clothes, setClothes] = useState([]);
   const [elecrtonics, setElecrtonics] = useState([]);
-  // Fetch Products
-  // useEffect(() => {
-  //   const fetchProducts = async () => {
-  //     await Axios.get(api + 'api/products')
-  //       .then((res) => setProducts(res.data))
-  //       .catch((err) => console.log(err));
-  //   };
-  //   fetchProducts();
-  // }, [api]);
 
   // Fetch Latest Products
   useEffect(() => {
@@ -34,7 +24,7 @@ const MainPage = ({ api }) => {
   // Fetch Clothes
   useEffect(() => {
     const fetchClothes = async () => {
-      await Axios.get(`${api}api/products/1/clothes`)
+      await Axios.get(`${api}api/products/1/clothes/default`)
         .then((res) => setClothes(res.data))
         .catch((err) => console.log(err));
     };
@@ -43,12 +33,12 @@ const MainPage = ({ api }) => {
 
   // Fetch Electronics
   useEffect(() => {
-    const fetchClothes = async () => {
-      await Axios.get(`${api}api/products/1/electronics`)
+    const fetchElecrtonics = async () => {
+      await Axios.get(`${api}api/products/1/electronics/default`)
         .then((res) => setElecrtonics(res.data))
         .catch((err) => console.log(err));
     };
-    fetchClothes();
+    fetchElecrtonics();
   }, [elecrtonics, api]);
 
   return (
@@ -63,12 +53,7 @@ const MainPage = ({ api }) => {
           <h1 className="mb-5 text-3xl font-medium text-heading">Latest</h1>
           <div className="flex flex-col md:flex-row justify-between gap-6">
             {latestProducts.slice(0, 5).map((product) => (
-              <Product
-                product={product}
-                loading={0}
-                api={api}
-                key={product._id}
-              />
+              <Product product={product} loading={0} />
             ))}
           </div>
           <Link to="/store">

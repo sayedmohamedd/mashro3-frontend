@@ -33,6 +33,7 @@ function App() {
           <Routes>
             <Route path="/" element={<MainPage api={api} />} />
             <Route path="/store" element={<Store api={api} />} />
+            {/* <Route path="/store/:category" element={<Store api={api} />} /> */}
             <Route
               path="/cart"
               element={

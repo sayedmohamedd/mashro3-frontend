@@ -1,32 +1,28 @@
 import { useEffect, useState } from 'react';
 import Axios from 'axios';
 import Product from './Product';
+// import { useParams } from 'react-router-dom';
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 const Store = ({ api }) => {
+  // const params = useParams();
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState('default');
   const [pageNumber, setPageNumber] = useState(1);
   const [loading, setLoading] = useState(true);
-
+  const [sort, setSort] = useState('default');
+  // console.log(params);
   useEffect(() => {
+    console.log(sort);
     const fetchProducts = async () => {
-      await Axios.get(`${api}api/products/${pageNumber}/${category}`)
+      await Axios.get(`${api}api/products/${pageNumber}/${category}/${sort}`)
         .then((res) => {
           setProducts(res.data);
           setLoading(false);
         })
         .catch((err) => console.log(err));
     };
-    // const fetchProducts = async () => {
-    //   await Axios.get(`${api}api/products/${pageNumber}/${category}`)
-    //     .then((res) => {
-    //       setProducts(res.data);
-    //       setLoading(false);
-    //     })
-    //     .catch((err) => console.log(err));
-    // };
     fetchProducts();
-  }, [pageNumber, category, api]);
+  }, [pageNumber, category, api, sort]);
 
   useEffect(() => {
     scrollTop();
@@ -81,10 +77,17 @@ const Store = ({ api }) => {
         <section className="md:w-[80%] bg-white rounded-md pb-3">
           <div className="flex gap-3 px-10 py-3 border-b-2 rounded-md">
             <span className="font-medium text-lg">sort by</span>
-            <select className="bg-gray-200 rounded-md px-3 py-1">
-              <option>default</option>
-              <option>price</option>
-              <option>num</option>
+            <select
+              className="bg-gray-200 rounded-md px-3 py-1"
+              onChange={(e) => {
+                setSort(e.target.value);
+                setPageNumber(1);
+              }}
+              value={category}
+            >
+              <option value="default">default</option>
+              <option value="lowestPrice">lowestPrice</option>
+              <option value="heightPrice">heightPrice</option>
             </select>
           </div>
           <div className="mx-auto px-6 py-5 flex flex-col items-center justify-center md:flex-row flex-wrap gap-5">
