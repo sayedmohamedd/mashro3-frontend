@@ -83,7 +83,7 @@ const Store = ({ api }) => {
                 setSort(e.target.value);
                 setPageNumber(1);
               }}
-              value={category}
+              value={sort}
             >
               <option value="default">default</option>
               <option value="lowestPrice">lowestPrice</option>
