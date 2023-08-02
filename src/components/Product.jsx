@@ -7,7 +7,7 @@ import { useCookies } from 'react-cookie';
 import { motion } from 'framer-motion';
 
 const Product = ({ product, loading }) => {
-  const [cookie] = useCookies(['_auth']);
+  const [cookie] = useCookies();
   const navigate = useNavigate();
   const addToCart = async (
     id,
@@ -23,7 +23,7 @@ const Product = ({ product, loading }) => {
     if (!cookie['_auth']) {
       navigate('/login');
     } else {
-      const { user_id } = cookie['_auth_state']['userId'];
+      const user_id = cookie['_auth_state']['userId'];
       await Axios.post(
         'https://mashro3-backend.onrender.com/api/cart/addproduct',
         // 'http://localhost:3002/api/cart/addproduct',
