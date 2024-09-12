@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 // Actions
 import { fetchCartProducts } from '../redux/features/cartReducer';
+import url from '../utils/url';
 
 const CartProduct = ({ el }) => {
   const { product, number } = el;
@@ -15,7 +16,7 @@ const CartProduct = ({ el }) => {
   // Delete Product Function
   const deleteProduct = async () => {
     axios
-      .delete(`http://localhost:3002/api/v1/cart/${el?._id}`, {
+      .delete(`${url}/api/v1/cart/${el?._id}`, {
         headers: {
           authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -28,9 +29,9 @@ const CartProduct = ({ el }) => {
   const increaseProductByOne = async () => {
     await axios
       .post(
-        'http://localhost:3002/api/V1/cart',
+        `${url}/api/V1/cart`,
         {
-          id: el?._id,
+          product_id: el?.product?._id,
         },
         {
           headers: {
@@ -46,7 +47,7 @@ const CartProduct = ({ el }) => {
   const decreaseProductByOne = async () => {
     await axios
       .patch(
-        'http://localhost:3002/api/v1/cart',
+        `${url}/api/v1/cart`,
         {
           id: el?._id,
         },

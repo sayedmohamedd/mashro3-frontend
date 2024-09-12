@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 // Actions
 import { login } from '../../redux/features/userReducer';
 import { fetchCartProducts } from '../../redux/features/cartReducer';
+import url from '../../utils/url';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -19,7 +20,7 @@ const Login = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     axios
-      .post('http://localhost:3002/api/v1/users/login', { email, password })
+      .post(`${url}/api/v1/users/login`, { email, password })
       .then((res) => {
         localStorage.setItem('user', JSON.stringify(res.data.data.user));
         localStorage.setItem('token', res.data.token);

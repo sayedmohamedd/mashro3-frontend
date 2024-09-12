@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
+import url from '../../utils/url';
 
 const Register = ({ api }) => {
   const [username, setUsername] = useState('');
@@ -14,7 +15,7 @@ const Register = ({ api }) => {
   const submitForm = (e) => {
     e.preventDefault();
     axios
-      .post('http://localhost:3002/api/v1/users/register', {
+      .post(`${url}/api/v1/users/register`, {
         username,
         email,
         password,

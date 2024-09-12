@@ -19,7 +19,9 @@ import { fetchCategories } from '../redux/features/categoryReducer';
 // Images
 import logo from './../assets/commerce.png';
 
+// Utils
 import { scrollTop } from './../utils/helper';
+import url from './../utils/url';
 
 const Nav = () => {
   const dispatch = useDispatch();
@@ -45,12 +47,6 @@ const Nav = () => {
     return count;
   };
 
-  // fetch categories
-  useEffect(() => {
-    dispatch(fetchCategories());
-    return () => {};
-  }, [dispatch]);
-
   // Fetch Cart
   useEffect(() => {
     dispatch(fetchCartProducts());
@@ -68,7 +64,7 @@ const Nav = () => {
   const searchFunction = async (searchValue) => {
     if (searchValue) {
       await axios
-        .get(`http://localhost:3002/api/v1/products/${searchValue}`)
+        .get(`${url}/api/v1/products/${searchValue}`)
         .then((res) => setProducts(res?.data?.data?.products))
         .catch((err) => console.log(err));
       return;

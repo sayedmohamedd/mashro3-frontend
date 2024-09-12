@@ -1,6 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import fetchAPIData from '../../utils/fetchAPIData';
-const url = 'http://localhost:3002/api/v1/cart';
+import URL from './../../utils/url';
+
+const url = `${URL}/api/v1/cart`;
 
 export const fetchCartProducts = createAsyncThunk(
   'cart/fetchCartProducts',

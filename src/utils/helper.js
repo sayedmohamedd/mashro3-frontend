@@ -3,8 +3,7 @@ export const scrollTop = () => {
 };
 
 export const isLoggedIn = () => {
-  console.log(localStorage.getItem('token'));
-  return localStorage.getItem('mohsen') ? true : false;
+  return localStorage.getItem('token') ? true : false;
 };
 
 export const determineTotalPrice = (cart) => {

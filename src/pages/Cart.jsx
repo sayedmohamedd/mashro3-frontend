@@ -12,6 +12,8 @@ import { fetchCartProducts, resetCart } from '../redux/features/cartReducer';
 // Utils
 import { determineTotalPrice } from '../utils/helper';
 
+import url from './../utils/url';
+
 const Cart = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cart);
@@ -23,7 +25,7 @@ const Cart = () => {
 
   const emptyCart = async () => {
     await axios
-      .delete(`http://localhost:3002/api/v1/cart`, {
+      .delete(`${url}/api/v1/cart`, {
         headers: {
           authorization: `Bearer ${localStorage.getItem('token')}`,
         },

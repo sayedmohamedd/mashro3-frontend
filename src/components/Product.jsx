@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 // Utils
 import { fetchCartProducts } from '../redux/features/cartReducer';
+import url from '../utils/url';
 
 const Product = ({ product, loading }) => {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ const Product = ({ product, loading }) => {
     if (user) {
       axios
         .post(
-          'http://localhost:3002/api/v1/cart',
+          `${url}/api/v1/cart`,
           { product_id: product._id },
           {
             headers: {

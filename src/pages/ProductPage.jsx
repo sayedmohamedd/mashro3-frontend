@@ -1,6 +1,6 @@
 // react
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
 // icons
@@ -10,17 +10,44 @@ import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
 import { motion } from 'framer-motion';
 import { scrollTop } from '../utils/helper';
 
+import url from './../utils/url';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCartProducts } from '../redux/features/cartReducer';
+
 const ProductPage = () => {
   const [product, setProduct] = useState({});
   const { slug } = useParams();
 
+  const user = useSelector((state) => state.user.user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   // Fetch Product
   useEffect(() => {
     axios
-      .get(`http://localhost:3002/api/v1/products/${slug}`)
+      .get(`${url}/api/v1/products/${slug}`)
       .then((res) => setProduct(res.data.data.products[0]))
       .catch((err) => console.log(err));
   }, [slug]);
+
+  const addToCart = async () => {
+    if (user) {
+      axios
+        .post(
+          `${url}/api/v1/cart`,
+          { product_id: product?._id },
+          {
+            headers: {
+              authorization: `Bearer ${localStorage.getItem('token')}`,
+            },
+          }
+        )
+        .then(() => dispatch(fetchCartProducts()))
+        .catch((err) => console.log(err));
+    } else {
+      navigate('/login');
+    }
+  };
 
   // Scroll Top
   useEffect(() => scrollTop(), []);
@@ -61,7 +88,7 @@ const ProductPage = () => {
           <motion.button
             whileTap={{ scale: 1.1, opacity: 0.9 }}
             transition={{ duration: 0.5 }}
-            //  onClick={addToCart}
+            onClick={addToCart}
             className="px-7 py-2.5 rounded-md bg-green-400 text-white"
           >
             Add To Cart

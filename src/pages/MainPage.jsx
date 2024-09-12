@@ -16,9 +16,12 @@ import { useDispatch, useSelector } from 'react-redux';
 // Actions
 import { fetchAllProducts } from '../redux/features/productReducer';
 
+import url from './../utils/url';
+import SkeletonProduct from '../components/Skeleton/SkeletonProduct';
+
 const MainPage = ({ api }) => {
   const dispatch = useDispatch();
-  const products = useSelector((state) => state.products.products);
+  const { products, status } = useSelector((state) => state.products);
   const [clothes, setClothes] = useState([]);
   const [elecrtonics, setElecrtonics] = useState([]);
   const [mobiles, setMobiles] = useState([]);
@@ -33,7 +36,7 @@ const MainPage = ({ api }) => {
   useEffect(() => {
     const fetchClothes = async () => {
       await axios
-        .get(`http://localhost:3002/api/v1/products?page=1&category=clothes`)
+        .get(`${url}/api/v1/products?page=1&category=clothes`)
         .then((res) => setClothes(res.data.data.products))
         .catch((err) => console.log(err));
     };
@@ -45,7 +48,7 @@ const MainPage = ({ api }) => {
   useEffect(() => {
     const fetchMobiles = async () => {
       await axios
-        .get(`http://localhost:3002/api/v1/products?page=1&category=mobiles`)
+        .get(`${url}/api/v1/products?page=1&category=mobiles`)
         .then((res) => setMobiles(res.data.data.products))
         .catch((err) => console.log(err));
     };
@@ -57,9 +60,7 @@ const MainPage = ({ api }) => {
   useEffect(() => {
     const fetchEloctronics = async () => {
       await axios
-        .get(
-          `http://localhost:3002/api/v1/products?page=1&category=electronics`
-        )
+        .get(`${url}/api/v1/products?page=1&category=electronics`)
         .then((res) => setElecrtonics(res.data.data.products))
         .catch((err) => console.log(err));
     };
@@ -72,15 +73,26 @@ const MainPage = ({ api }) => {
       <Advertisments />
       {/* <Offers /> */}
       <Categories api={api} />
-
       {/* latest */}
       <section className="my-12">
         <div className="container mx-auto px-6 py-5 text-center rounded-3xl shadow-2xl bg-white">
           <h1 className="mb-5 text-3xl font-medium text-heading">Latest</h1>
           <div className="flex flex-col md:flex-row justify-between gap-6">
-            {products.slice(0, 5).map((product) => (
-              <Product product={product} loading={0} key={product._id} />
-            ))}
+            {status !== 'success' ? (
+              <>
+                <SkeletonProduct />
+                <SkeletonProduct />
+                <SkeletonProduct />
+                <SkeletonProduct />
+                <SkeletonProduct />
+              </>
+            ) : (
+              products
+                ?.slice(0, 5)
+                .map((product) => (
+                  <Product product={product} loading={0} key={product._id} />
+                ))
+            )}
           </div>
           <Link to="/store">
             <button className="px-6 py-2.5 rounded-3xl text-white bg-gray-700  mt-5 hover:bg-gray-500 hover:text-black ease-in duration-100">
