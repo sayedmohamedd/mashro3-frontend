@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom';
 const Categories = ({ api }) => {
   const [categories, setCategories] = useState([]);
 
-  useEffect(() => {
-    const fetchCategories = async () => {
-      await Axios.get(`${api}api/categories`)
-        .then((res) => setCategories(res.data))
-        .catch((err) => console.log(err));
-    };
-    fetchCategories();
-  }, [api]);
+  // useEffect(() => {
+  //   const fetchCategories = async () => {
+  //     await Axios.get(`${api}api/categories`)
+  //       .then((res) => setCategories(res.data))
+  //       .catch((err) => console.log(err));
+  //   };
+  //   fetchCategories();
+  // }, [api]);
 
   return (
     <section className="container mx-auto my-5 py-3">

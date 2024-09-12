@@ -1,46 +1,55 @@
+// Hooks
 import { useEffect, useState } from 'react';
-import Axios from 'axios';
+
+// Components
 import Product from './Product';
-// import { useParams } from 'react-router-dom';
+// Icons
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
+
+// React Redux
+import { useDispatch, useSelector } from 'react-redux';
+
+// Actions
+import { fetchAllProducts } from '../redux/features/productReducer';
+
 const Store = ({ api }) => {
-  // const params = useParams();
-  const [products, setProducts] = useState([]);
-  const [category, setCategory] = useState('default');
-  const [pageNumber, setPageNumber] = useState(1);
+  const [category, setCategory] = useState('');
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [sort, setSort] = useState('default');
-  // console.log(params);
+  const [sort, setSort] = useState('');
+  const dispatch = useDispatch();
+  const { products, status } = useSelector((state) => state.products);
+
+  // Fetch Products
   useEffect(() => {
-    console.log(sort);
-    const fetchProducts = async () => {
-      await Axios.get(`${api}api/products/${pageNumber}/${category}/${sort}`)
-        .then((res) => {
-          setProducts(res.data);
-          setLoading(false);
-        })
-        .catch((err) => console.log(err));
-    };
-    fetchProducts();
-  }, [pageNumber, category, api, sort]);
+    dispatch(fetchAllProducts({ page, category }));
+  }, [dispatch]);
 
   useEffect(() => {
     scrollTop();
   }, []);
 
   const onNext = () => {
-    setPageNumber((prev) => prev + 1);
+    setPage((prev) => prev + 1);
     setLoading(true);
+    dispatch(fetchAllProducts({ page: page + 1, category }));
     scrollTop();
   };
 
   const onPrev = () => {
-    if (pageNumber > 1) {
-      setPageNumber((prev) => prev - 1);
+    if (page > 1) {
+      setPage((page) => page - 1);
       setLoading(true);
+      dispatch(fetchAllProducts({ page: page - 1, category }));
       scrollTop();
     }
   };
+
+  useEffect(() => {
+    if (status === 'success') {
+      setLoading(false);
+    }
+  }, [status]);
 
   const scrollTop = () => {
     window.scrollTo(0, 0);
@@ -61,11 +70,14 @@ const Store = ({ api }) => {
               className="bg-gray-200 rounded-md px-3 py-1"
               onChange={(e) => {
                 setCategory(e.target.value);
-                setPageNumber(1);
+                setPage(1);
+                dispatch(
+                  fetchAllProducts({ pag: 1, category: e.target.value })
+                );
               }}
               value={category}
             >
-              <option value="default">default</option>
+              <option value="">default</option>
               <option value="mobiles">mobiles</option>
               <option value="computers">computers</option>
               <option value="clothes">clothes</option>
@@ -81,7 +93,7 @@ const Store = ({ api }) => {
               className="bg-gray-200 rounded-md px-3 py-1"
               onChange={(e) => {
                 setSort(e.target.value);
-                setPageNumber(1);
+                setPage(1);
               }}
               value={sort}
             >
@@ -106,7 +118,7 @@ const Store = ({ api }) => {
               className="rounded-full w-6 h-6 cursor-pointer hover:opacity-80"
               onClick={onPrev}
             />
-            <span style={{ userSelect: 'none' }}>{pageNumber}</span>
+            <span style={{ userSelect: 'none' }}>{page}</span>
             <AiOutlineArrowRight
               className="rounded-full w-6 h-6 cursor-pointer hover:opacity-80"
               onClick={onNext}

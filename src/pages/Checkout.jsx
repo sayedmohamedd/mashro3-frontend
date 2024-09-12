@@ -1,17 +1,15 @@
-// react
-import { useState, useRef, useEffect } from 'react';
+// Hooks
+import { useState, useRef } from 'react';
+
+// React Router
 import { Link } from 'react-router-dom';
-import Axios from 'axios';
+import { useSelector } from 'react-redux';
+import { determineTotalPrice } from '../utils/helper';
 
-// cookies
-import { useCookies } from 'react-cookie';
-
-// react auth
-import { useAuthUser } from 'react-auth-kit';
-
-const Checkout = ({ api }) => {
-  const [cookie] = useCookies(['_auth']);
-  const AuthUser = useAuthUser();
+const Checkout = () => {
+  // Redux State
+  const cart = useSelector((state) => state.cart.cart);
+  const user = useSelector((state) => state.user.user);
   const shipping = useRef(0);
   const order = useRef(0);
   const bill = useRef(0);
@@ -22,34 +20,6 @@ const Checkout = ({ api }) => {
   const [city, setCity] = useState('');
   const [zip_code, setZipCode] = useState('');
   const [card_number, setCardNumber] = useState('');
-
-  const [products, setProducts] = useState([]);
-  const [totalPrice, setTotalPrice] = useState();
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const user_id = cookie['_auth_state']['userId'];
-      await Axios.post(api + `api/cart`, { user_id })
-        .then((res) => {
-          setProducts(res.data);
-          setTotalPrice(determineTotalPrice(res.data));
-        })
-        .catch((err) => console.log(err));
-    };
-    fetchProducts();
-  }, [products, api, cookie]);
-
-  useEffect(() => {
-    scrollTop();
-  }, []);
-
-  const determineTotalPrice = (products) => {
-    let total = 0;
-    products.map((product) => {
-      return (total += product?.price * product?.number);
-    });
-    return total;
-  };
 
   const scrollTop = () => {
     window.scrollTo(0, 0);
@@ -219,16 +189,16 @@ const Checkout = ({ api }) => {
                 </h3>
                 <div className="flex flex-col gap-5 md:space-x-1">
                   <ul className="flex flex-col space-y-4">
-                    {products.map((product) => (
+                    {cart.map((el) => (
                       <li
-                        key={product._id}
+                        key={el?.product._id}
                         className="flex justify-between items-center"
                       >
                         <p className="flex flex-col">
-                          <span>{product.name}</span>
-                          <span>Quantity: {product.number}</span>
+                          <span>{el?.product?.name}</span>
+                          <span>Quantity: {el?.number}</span>
                         </p>
-                        <span>${product.price * product.number}</span>
+                        <span>${el?.product?.price * el?.number}</span>
                       </li>
                     ))}
                     <li className="flex justify-between items-center">
@@ -241,7 +211,7 @@ const Checkout = ({ api }) => {
 
                     <li className="flex py-2 justify-between border-0 border-b-2">
                       <span className="text-lg">Total</span>
-                      <span>${totalPrice}</span>
+                      <span>${determineTotalPrice(cart)}</span>
                     </li>
                   </ul>
                   <h1>Payment Method</h1>
@@ -267,7 +237,7 @@ const Checkout = ({ api }) => {
                       className="w-28 py-1 rounded-lg font-medium text-white bg-blue-400"
                       onClick={pay}
                     >
-                      Pay ${totalPrice}
+                      Pay ${determineTotalPrice(cart)}
                     </button>
                   </div>
                 </div>
@@ -276,7 +246,7 @@ const Checkout = ({ api }) => {
               {/* bill */}
               <div ref={bill} className=" hidden w-full">
                 <h3 className="font-medium text-xl text-heading my-5">
-                  Thank You for your purchase, {AuthUser().username}
+                  Thank You for your purchase, {user?.username}
                 </h3>
                 <p className="my-2 text-slate-600">Order-ref:JDSJFHSJ-213681</p>
                 <Link to="/">

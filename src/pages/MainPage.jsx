@@ -1,55 +1,71 @@
-import React, { useEffect, useState } from 'react';
-import Advertisments from './Advertisments';
-// import Offers from './Offers';
-import Categories from './Categories';
-import Product from './Product';
-import Axios from 'axios';
+// Hooks
+import { useEffect, useState } from 'react';
+
+// Components
+import Advertisments from './../components/Advertisments';
+import Categories from './../components/Categories';
+import Product from './../components/Product';
+import axios from 'axios';
+
+// React Router
 import { Link } from 'react-router-dom';
 
+// React Redux
+import { useDispatch, useSelector } from 'react-redux';
+
+// Actions
+import { fetchAllProducts } from '../redux/features/productReducer';
+
 const MainPage = ({ api }) => {
-  const [latestProducts, setLastestProducts] = useState([]);
+  const dispatch = useDispatch();
+  const products = useSelector((state) => state.products.products);
   const [clothes, setClothes] = useState([]);
   const [elecrtonics, setElecrtonics] = useState([]);
   const [mobiles, setMobiles] = useState([]);
+
   // Fetch Latest Products
   useEffect(() => {
-    const fetchLatestProducts = async () => {
-      await Axios.get(api + 'api/latestProducts')
-        .then((res) => setLastestProducts(res.data))
-        .catch((err) => console.log(err));
-    };
-    fetchLatestProducts();
-  }, [latestProducts, api]);
+    dispatch(fetchAllProducts({ page: 1, category: '' }));
+    return () => {};
+  }, [dispatch]);
 
   // Fetch Clothes
   useEffect(() => {
     const fetchClothes = async () => {
-      await Axios.get(`${api}api/products/1/clothes/default`)
-        .then((res) => setClothes(res.data))
+      await axios
+        .get(`http://localhost:3002/api/v1/products?page=1&category=clothes`)
+        .then((res) => setClothes(res.data.data.products))
         .catch((err) => console.log(err));
     };
     fetchClothes();
-  }, [clothes, api]);
+    return () => {};
+  }, []);
 
   // Fetch Mobiles
   useEffect(() => {
     const fetchMobiles = async () => {
-      await Axios.get(`${api}api/products/1/mobiles/default`)
-        .then((res) => setMobiles(res.data))
+      await axios
+        .get(`http://localhost:3002/api/v1/products?page=1&category=mobiles`)
+        .then((res) => setMobiles(res.data.data.products))
         .catch((err) => console.log(err));
     };
     fetchMobiles();
-  }, [mobiles, api]);
+    return () => {};
+  }, []);
 
   // Fetch Electronics
   useEffect(() => {
-    const fetchElecrtonics = async () => {
-      await Axios.get(`${api}api/products/1/electronics/default`)
-        .then((res) => setElecrtonics(res.data))
+    const fetchEloctronics = async () => {
+      await axios
+        .get(
+          `http://localhost:3002/api/v1/products?page=1&category=electronics`
+        )
+        .then((res) => setElecrtonics(res.data.data.products))
         .catch((err) => console.log(err));
     };
-    fetchElecrtonics();
-  }, [elecrtonics, api]);
+    fetchEloctronics();
+    return () => {};
+  }, []);
 
   return (
     <>
@@ -62,8 +78,8 @@ const MainPage = ({ api }) => {
         <div className="container mx-auto px-6 py-5 text-center rounded-3xl shadow-2xl bg-white">
           <h1 className="mb-5 text-3xl font-medium text-heading">Latest</h1>
           <div className="flex flex-col md:flex-row justify-between gap-6">
-            {latestProducts.slice(0, 5).map((product) => (
-              <Product product={product} loading={0} />
+            {products.slice(0, 5).map((product) => (
+              <Product product={product} loading={0} key={product._id} />
             ))}
           </div>
           <Link to="/store">

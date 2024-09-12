@@ -1,61 +1,48 @@
-// react
-import { useEffect, useState } from 'react';
+// Hooks
+import { useState } from 'react';
+import axios from 'axios';
+// React Router
 import { Link, useNavigate } from 'react-router-dom';
-import Axios from 'axios';
+// React Redux
+import { useDispatch } from 'react-redux';
+// Actions
+import { login } from '../../redux/features/userReducer';
+import { fetchCartProducts } from '../../redux/features/cartReducer';
 
-// react auth kit
-import { useSignIn } from 'react-auth-kit';
-
-const Login = ({ api }) => {
+const Login = () => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [result, setResult] = useState();
+  const [result, setResult] = useState('');
   const navigate = useNavigate();
-  const signIn = useSignIn();
-  // const AuthUser = useAuthUser();
-  useEffect(() => {
-    scrollTop();
-  }, []);
 
-  const submitForm = (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
-    Axios.post(api + 'api/login', { email, password })
+    axios
+      .post('http://localhost:3002/api/v1/users/login', { email, password })
       .then((res) => {
-        setResult(res.data);
-        if (res.data.success) {
-          signIn({
-            token: res.data.token,
-            tokenType: 'Bearer',
-            expiresIn: 3600,
-            authState: {
-              userId: res.data.userId,
-              email,
-              username: res.data.username,
-            },
-          });
-          setEmail('');
-          setPassword('');
-          navigate('/');
-        }
+        localStorage.setItem('user', JSON.stringify(res.data.data.user));
+        localStorage.setItem('token', res.data.token);
+        dispatch(login());
+        dispatch(fetchCartProducts());
+        navigate('/');
       })
-      .catch((err) => console.log(err));
+      .catch((err) => setResult(err.response.data.message));
   };
 
-  const scrollTop = () => {
-    window.scrollTo(0, 0);
-  };
   return (
     <section className="conatiner mx-auto min-h-[82vh]">
       <form
-        onSubmit={submitForm}
+        onSubmit={handleLogin}
         className="flex flex-col gap-4 mx-auto w-[330px] mt-10 rounded-md px-6 py-5 bg-white shadow-md"
       >
         <div className="w-full mx-auto text-center flex flex-col gap-1">
-          {result?.map((item) => (
+          {result && <p className="text-red-500">{result}</p>}
+          {/* {result?.map((item) => (
             <p key={item.msg} className="text-red-500">
               {item.msg}
             </p>
-          ))}
+          ))} */}
         </div>
         <h1 className="text-center font-bold text-2xl text-slate-900">Login</h1>
         <label htmlFor="email" className="text-lg text-slate-800">

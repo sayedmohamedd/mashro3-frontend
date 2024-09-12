@@ -1,6 +1,7 @@
-import Axios from 'axios';
-import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
 
 const Register = ({ api }) => {
   const [username, setUsername] = useState('');
@@ -10,35 +11,25 @@ const Register = ({ api }) => {
   const [result, setResult] = useState([]);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    scrollTop();
-  }, []);
-
   const submitForm = (e) => {
     e.preventDefault();
-    // if (username && email && password && phone) {
-    Axios.post(api + 'api/register', { username, email, password, phone })
-      .then((res) => {
-        setResult(res.data);
-        if (res.data.success) {
-          setUsername('');
-          setEmail('');
-          setPassword('');
-          setPhone('');
-          navigate('/login');
-          setResult([]);
-        }
+    axios
+      .post('http://localhost:3002/api/v1/users/register', {
+        username,
+        email,
+        password,
+        phone,
+      })
+      .then(() => {
+        toast.success('Created Successfully');
+        navigate('/login');
       })
       .catch((err) => console.log(err));
-    // }
-  };
-
-  const scrollTop = () => {
-    window.scrollTo(0, 0);
   };
 
   return (
     <section className="relative conatiner mx-auto min-h-[100vh]">
+      <ToastContainer />
       <form
         onSubmit={submitForm}
         className="flex flex-col gap-4 mx-auto w-[330px] mt-8 rounded-md px-6 py-5 shadow-md bg-white"

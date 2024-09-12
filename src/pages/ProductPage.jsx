@@ -1,77 +1,41 @@
 // react
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import Axios from 'axios';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 
 // icons
 import { BsStar, BsStarFill, BsStarHalf } from 'react-icons/bs';
 
-// react auth
-import { useAuthUser } from 'react-auth-kit';
-
 // framer motion animation
 import { motion } from 'framer-motion';
+import { scrollTop } from '../utils/helper';
 
-const ProductPage = ({ api }) => {
+const ProductPage = () => {
   const [product, setProduct] = useState({});
   const { slug } = useParams();
-  const navigate = useNavigate();
-  const AuthUser = useAuthUser();
 
+  // Fetch Product
   useEffect(() => {
-    const fetchProduct = async () => {
-      await Axios.get(api + `api/products/${slug}`)
-        .then((res) => {
-          setProduct(res.data);
-        })
-        .catch((err) => console.log(err));
-    };
-    fetchProduct();
-  }, [slug, api]);
+    axios
+      .get(`http://localhost:3002/api/v1/products/${slug}`)
+      .then((res) => setProduct(res.data.data.products[0]))
+      .catch((err) => console.log(err));
+  }, [slug]);
 
-  const addToCart = async (
-    id,
-    name,
-    price,
-    description,
-    category,
-    offer,
-    image,
-    rate,
-    slug
-  ) => {
-    if (AuthUser()) {
-      navigate('/login');
-    } else {
-      const { user_id } = AuthUser();
-      await Axios.post(api + 'api/cart/addproduct', {
-        user_id,
-        name,
-        product_id: id,
-        price,
-        description,
-        category,
-        offer,
-        image,
-        rate,
-        slug,
-      })
-        .then((res) => console.log(res.data))
-        .catch((err) => console.log(err));
-    }
-  };
+  // Scroll Top
+  useEffect(() => scrollTop(), []);
 
   return (
     <section className="min-h-[100vh]">
       <h1 className="text-center text-3xl font-medium text-slate-900 mt-12 my-7">
-        {product.name}
+        {product?.name}
       </h1>
       <div className="container mx-auto my-5 p-5 flex flex-col md:flex-row gap-7 rounded-md bg-white">
         <div className="md:w-1/2 max-h-[70vh] flex justify-center items-center p-5 rounded-md">
           <img
-            src={product.image?.slice(1, product.image?.length)}
+            src={product?.image?.slice(1, product?.image?.length)}
             className="aspect-square object-contain max-h-[90%] max-w-[90%] md:max-h-[100%] md:max-w-[100%]"
-            alt={product.name}
+            alt={product?.name}
           />
         </div>
         <div className="md:w-[40%] flex flex-col justify-evenly">
@@ -83,7 +47,7 @@ const ProductPage = ({ api }) => {
             do with all the evid… Problem: the paragraph has more than one
           </p>
           <p className="text-slate-500">
-            Price: <span>{product.price} $</span>
+            Price: <span>{product?.price} $</span>
           </p>
           <div className="flex my-3 text-yellow-500">
             {Array(3)
@@ -97,19 +61,7 @@ const ProductPage = ({ api }) => {
           <motion.button
             whileTap={{ scale: 1.1, opacity: 0.9 }}
             transition={{ duration: 0.5 }}
-            onClick={() =>
-              addToCart(
-                product._id,
-                product.name,
-                product.price,
-                product.description,
-                product.category,
-                product.offer,
-                product.image,
-                product.rate,
-                product.slug
-              )
-            }
+            //  onClick={addToCart}
             className="px-7 py-2.5 rounded-md bg-green-400 text-white"
           >
             Add To Cart

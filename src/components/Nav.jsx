@@ -1,7 +1,7 @@
+// Hooks
 import { useEffect, useState, useRef } from 'react';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
-import Axios from 'axios';
 
 // icons
 import { IoMdArrowDropdown } from 'react-icons/io';
@@ -9,79 +9,72 @@ import { AiOutlineShoppingCart, AiOutlineSearch } from 'react-icons/ai';
 
 // animation
 import { motion } from 'framer-motion';
+// React Redux
+import { useDispatch, useSelector } from 'react-redux';
+// Actions
+import { logout } from './../redux/features/userReducer';
+import { fetchCartProducts } from '../redux/features/cartReducer';
+import { fetchCategories } from '../redux/features/categoryReducer';
 
-// react auth
-import { useAuthUser, useSignOut } from 'react-auth-kit';
+// Images
+import logo from './../assets/commerce.png';
 
-const Nav = ({ api }) => {
-  // auth
-  const AuthUser = useAuthUser();
-  const signOut = useSignOut();
-  const [cookie] = useCookies();
+import { scrollTop } from './../utils/helper';
 
-  // state
-  const [categories, setCategories] = useState([]);
-  const [cart, setCart] = useState([]);
-  const [products, setProducts] = useState([]);
+const Nav = () => {
+  const dispatch = useDispatch();
+
+  // Redux State
+  const cart = useSelector((state) => state.cart.cart);
+  const categories = useSelector((state) => state.categories.categories);
+  const user = useSelector((state) => state.user.user);
+
+  // Refs
   const categoryDropDown = useRef(null);
   const searchIcon = useRef(null);
-  const searchInput = useRef(null);
+  const inputSearch = useRef(null);
+
+  // State
+  const [products, setProducts] = useState([]);
+
+  const cartCount = () => {
+    let count = 0;
+    cart.forEach((el) => {
+      count += el.number;
+    });
+    return count;
+  };
 
   // fetch categories
   useEffect(() => {
-    const fetchCategories = async () => {
-      await Axios.get(api + 'api/categories')
-        .then((res) => setCategories(res.data))
-        .catch((err) => console.log(err));
-    };
-    fetchCategories();
-  }, [api]);
+    dispatch(fetchCategories());
+    return () => {};
+  }, [dispatch]);
 
-  // fetch cart count
+  // Fetch Cart
   useEffect(() => {
-    const fetchCart = async () => {
-      const user_id = cookie['_auth_state']['userId'];
-      await Axios.post(api + `api/cart`, { user_id })
-        .then((res) => {
-          setCart(res.data);
-        })
-        .catch((err) => console.log(err));
-    };
-    if (cookie['_auth_state']) {
-      fetchCart();
-    }
-  }, [cart, api, cookie]);
+    dispatch(fetchCartProducts());
+    return () => {};
+  }, [dispatch]);
 
-  useEffect(() => {
-    scrollTop();
-  }, []);
-
-  const scrollTop = () => {
-    window.scrollTo(0, 0);
+  // Logout
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    dispatch(logout());
   };
 
-  const logout = () => {
-    signOut();
-    scrollTop();
-  };
-
+  // Search
   const searchFunction = async (searchValue) => {
-    if (searchValue !== '') {
-      await Axios.post(api + 'api/products/search', { searchValue })
-        .then((res) => {
-          setProducts(res.data);
-          console.log(res.data);
-        })
+    if (searchValue) {
+      await axios
+        .get(`http://localhost:3002/api/v1/products/${searchValue}`)
+        .then((res) => setProducts(res?.data?.data?.products))
         .catch((err) => console.log(err));
-    } else {
-      setProducts([]);
+      return;
     }
+    setProducts([]);
   };
-
-  // const toggleSearch = () => {
-  //   searchIcon.classList.add('hidden');
-  //   searchInput.classList.remove('flex');
-  // };
 
   return (
     <motion.nav
@@ -94,12 +87,13 @@ const Nav = ({ api }) => {
         {/* logo */}
         <div>
           <Link to="/" onClick={scrollTop}>
-            <img src="./commerce.png" alt="" width="44px" height="44px" />
+            <img src={logo} alt="logo" width="44px" height="44px" />
           </Link>
         </div>
         {/* search */}
-        <div className="hidden lg:flex flex-col" ref={searchInput}>
+        <div className="hidden lg:flex flex-col">
           <input
+            ref={inputSearch}
             type="search"
             placeholder="Serach"
             className={`px-10 py-1 text-slate-900 rounded-xl ${
@@ -110,29 +104,31 @@ const Nav = ({ api }) => {
           />
           <div
             className="relative"
-            onMouseLeave={() => searchFunction('')}
-            onClick={() => searchFunction('')}
+            // onMouseLeave={setProducts([])}
+            onClick={() => setProducts([])}
           >
-            {products && (
-              <ul
-                className={`rounded-bl-md rounded-br-md absolute w-full flex flex-col gap-1 ${
-                  products.length === 0 ? '' : 'p-2'
-                } bg-white text-slate-900`}
-              >
-                {products.map((product) => (
-                  <Link to={`/products/${product.slug}`}>
-                    <li key={product._id} className="flex gap-3 px-3">
-                      <img
-                        className="w-10 h-10"
-                        src={product.image}
-                        alt={product.name}
-                      />
-                      <span className="font-medium">{product.name}</span>
-                    </li>
-                  </Link>
-                ))}
-              </ul>
-            )}
+            <ul
+              className={`rounded-bl-md rounded-br-md absolute w-full flex flex-col gap-1 ${
+                products ? '' : 'p-2'
+              } bg-white text-slate-900`}
+            >
+              {products.map((product) => (
+                <Link
+                  to={`/products/${product?.slug}`}
+                  key={product?._id}
+                  onClick={() => (inputSearch.current.value = '')}
+                >
+                  <li key={product?._id} className="flex gap-3 px-3">
+                    <img
+                      className="w-10 h-10"
+                      src={product?.image}
+                      alt={product?.name}
+                    />
+                    <span className="font-medium">{product?.name}</span>
+                  </li>
+                </Link>
+              ))}
+            </ul>
           </div>
         </div>
 
@@ -174,10 +170,10 @@ const Nav = ({ api }) => {
           </li>
         </ul>
         <div className="flex items-center gap-3">
-          <div>
+          <div ref={searchIcon}>
             <AiOutlineSearch
               className=" flex lg:hidden cursor-pointer"
-              ref={searchIcon}
+              // ref={searchIcon}
               // onClick={toggleSearch}
               size={24}
             />
@@ -188,23 +184,26 @@ const Nav = ({ api }) => {
             onClick={scrollTop}
           >
             <div className="relative">
-              <AiOutlineShoppingCart className="text-3xl" />
-              {AuthUser() && (
-                <span className="absolute top-[-15px] right-[-5px] text-red-500">
-                  {cart.length}
-                </span>
+              {user && (
+                <>
+                  <AiOutlineShoppingCart className="text-3xl" />
+                  <span className="absolute top-[-15px] right-[-5px] text-red-500">
+                    {cartCount()}
+                  </span>
+                </>
               )}
             </div>
           </Link>
 
-          {/* login & register */}
-          {!AuthUser() && (
+          {/* LOGIN */}
+          {!user && (
             <Link to="/login" onClick={scrollTop}>
               <span>Login</span>
             </Link>
           )}
-          {AuthUser() && (
-            <Link to="/" onClick={logout}>
+          {/* LOGOUT */}
+          {user && (
+            <Link to="/" onClick={handleLogout}>
               <span>Logout</span>
             </Link>
           )}
