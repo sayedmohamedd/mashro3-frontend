@@ -14,6 +14,7 @@ import Cart from './pages/Cart';
 import ProductPage from './pages/ProductPage';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
+import PaymentPage from './pages/PaymentPage';
 
 // React Redux
 import { Provider } from 'react-redux';
@@ -36,6 +37,7 @@ function App() {
               }
             />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/payment" element={<PaymentPage />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />

@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect } from 'react';
 
 // React Router
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { determineTotalPrice, scrollTop } from '../utils/helper';
 
@@ -13,17 +13,17 @@ const Checkout = () => {
   const shipping = useRef(0);
   const order = useRef(0);
   const bill = useRef(0);
+
   const [first_name, setFirstName] = useState('');
   const [last_name, setLastName] = useState('');
   const [address, setAddress] = useState('');
   const [email, setEmail] = useState('');
-  const [city, setCity] = useState('');
-  const [zip_code, setZipCode] = useState('');
-  const [card_number, setCardNumber] = useState('');
+
+  const navigate = useNavigate();
 
   const next = (e) => {
     e.preventDefault();
-    if (first_name && last_name && email && address && city && zip_code) {
+    if (first_name && last_name && email && address) {
       shipping.current.classList.add('hidden');
       order.current.classList.remove('hidden');
       scrollTop();
@@ -39,11 +39,10 @@ const Checkout = () => {
 
   const pay = (e) => {
     e.preventDefault();
-    if (card_number) {
-      shipping.current.classList.add('hidden');
-      order.current.classList.add('hidden');
-      bill.current.classList.remove('hidden');
-    }
+    navigate('/payment');
+    // shipping.current.classList.add('hidden');
+    // order.current.classList.add('hidden');
+    // bill.current.classList.remove('hidden');
   };
 
   // Scroll Top
@@ -114,7 +113,7 @@ const Checkout = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     className="px-3 py-2  border-0 border-b border-gray-400 focus:outline-none"
                   />
-                  <input
+                  {/* <input
                     type="text"
                     placeholder="City *"
                     name="city"
@@ -129,7 +128,7 @@ const Checkout = () => {
                     value={zip_code}
                     onChange={(e) => setZipCode(e.target.value)}
                     className="px-3 py-2  border-0 border-b border-gray-400 focus:outline-none"
-                  />
+                  /> */}
 
                   {/* Country */}
                   <label className="text-heading">Country</label>
@@ -214,8 +213,8 @@ const Checkout = () => {
                       <span>${determineTotalPrice(cart)}</span>
                     </li>
                   </ul>
-                  <h1>Payment Method</h1>
-                  <div>
+                  {/* <h1>Payment Method</h1> */}
+                  {/* <div>
                     <input
                       type="text"
                       placeholder="card number *"
@@ -224,7 +223,7 @@ const Checkout = () => {
                       onChange={(e) => setCardNumber(e.target.value)}
                       className="px-3 py-2  border-0 border-b border-gray-400 focus:outline-none"
                     />
-                  </div>
+                  </div> */}
 
                   <div className="flex justify-between px-2">
                     <button
