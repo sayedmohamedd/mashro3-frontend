@@ -1,18 +1,28 @@
+// Hooks
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useState } from 'react';
+// React Router
 import { Link, useNavigate } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
+// Utils
 import url from '../../utils/url';
+import { scrollTop } from '../../utils/helper';
+// React Redux
+import { useDispatch } from 'react-redux';
+// Actions
+import { login } from '../../redux/features/userReducer';
+import { fetchCartProducts } from '../../redux/features/cartReducer';
 
-const Register = ({ api }) => {
+const Register = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
-  const [result, setResult] = useState([]);
+  const [error, setError] = useState([]);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const submitForm = (e) => {
+  // Handle Register
+  const handleRegister = (e) => {
     e.preventDefault();
     axios
       .post(`${url}/api/v1/users/register`, {
@@ -21,26 +31,38 @@ const Register = ({ api }) => {
         password,
         phone,
       })
-      .then(() => {
-        toast.success('Created Successfully');
-        navigate('/login');
+      .then((res) => {
+        const token = res?.data?.token;
+        const user = JSON.stringify(res?.data?.data?.user);
+        dispatch(login({ token, user }));
+        dispatch(fetchCartProducts());
+        navigate('/');
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setError(err?.response?.data?.message);
+      });
   };
+
+  // Scroll Top
+  useEffect(() => {
+    scrollTop();
+    return () => {};
+  }, []);
 
   return (
     <section className="relative conatiner mx-auto min-h-[100vh]">
-      <ToastContainer />
       <form
-        onSubmit={submitForm}
+        onSubmit={handleRegister}
         className="flex flex-col gap-4 mx-auto w-[330px] mt-8 rounded-md px-6 py-5 shadow-md bg-white"
       >
         <div className="w-full mx-auto text-center flex flex-col gap-1">
-          {result?.map((item) => (
+          {/* {error?.map((item) => (
             <p key={item.msg} className="text-red-500">
               {item.msg}
             </p>
-          ))}
+          ))} */}
+          <p className="text-red-500">{error}</p>
         </div>
         <h1 className="text-center font-bold text-2xl text-slate-900">
           Register

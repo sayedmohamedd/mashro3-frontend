@@ -50,7 +50,10 @@ const ProductPage = () => {
   };
 
   // Scroll Top
-  useEffect(() => scrollTop(), []);
+  useEffect(() => {
+    scrollTop();
+    return () => {};
+  }, []);
 
   return (
     <section className="min-h-[100vh]">

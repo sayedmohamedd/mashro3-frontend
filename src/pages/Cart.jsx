@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 // Actions
 import { fetchCartProducts, resetCart } from '../redux/features/cartReducer';
 // Utils
-import { determineTotalPrice } from '../utils/helper';
+import { determineTotalPrice, scrollTop } from '../utils/helper';
 
 import url from './../utils/url';
 
@@ -18,11 +18,13 @@ const Cart = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.cart);
 
+  // Fetch Cart Products
   useEffect(() => {
     dispatch(fetchCartProducts());
     return () => {};
   }, [dispatch]);
 
+  // Empty Cart
   const emptyCart = async () => {
     await axios
       .delete(`${url}/api/v1/cart`, {
@@ -35,6 +37,12 @@ const Cart = () => {
       })
       .catch((err) => console.log(err));
   };
+
+  // Scroll Top
+  useEffect(() => {
+    scrollTop();
+    return () => {};
+  }, []);
 
   return (
     <>

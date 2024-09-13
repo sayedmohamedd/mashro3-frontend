@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 
 // Components
-import Product from './Product';
+import Product from './../components/Product';
 // Icons
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from 'react-icons/ai';
 
@@ -11,28 +11,25 @@ import { useDispatch, useSelector } from 'react-redux';
 
 // Actions
 import { fetchAllProducts } from '../redux/features/productReducer';
+import { scrollTop } from '../utils/helper';
 
 const Store = ({ api }) => {
   const [category, setCategory] = useState('');
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
-  const [sort, setSort] = useState('');
+  const [sort, setSort] = useState('-created_at');
   const dispatch = useDispatch();
   const { products, status } = useSelector((state) => state.products);
 
   // Fetch Products
   useEffect(() => {
-    dispatch(fetchAllProducts({ page, category }));
+    dispatch(fetchAllProducts({ page, category, sort }));
   }, [dispatch]);
-
-  useEffect(() => {
-    scrollTop();
-  }, []);
 
   const onNext = () => {
     setPage((prev) => prev + 1);
     setLoading(true);
-    dispatch(fetchAllProducts({ page: page + 1, category }));
+    dispatch(fetchAllProducts({ page: page + 1, category, sort }));
     scrollTop();
   };
 
@@ -40,7 +37,7 @@ const Store = ({ api }) => {
     if (page > 1) {
       setPage((page) => page - 1);
       setLoading(true);
-      dispatch(fetchAllProducts({ page: page - 1, category }));
+      dispatch(fetchAllProducts({ page: page - 1, category, sort }));
       scrollTop();
     }
   };
@@ -51,9 +48,10 @@ const Store = ({ api }) => {
     }
   }, [status]);
 
-  const scrollTop = () => {
-    window.scrollTo(0, 0);
-  };
+  // Scroll Top
+  useEffect(() => {
+    scrollTop();
+  }, []);
 
   return (
     <>
@@ -72,7 +70,7 @@ const Store = ({ api }) => {
                 setCategory(e.target.value);
                 setPage(1);
                 dispatch(
-                  fetchAllProducts({ pag: 1, category: e.target.value })
+                  fetchAllProducts({ page: 1, category: e.target.value, sort })
                 );
               }}
               value={category}
@@ -94,12 +92,15 @@ const Store = ({ api }) => {
               onChange={(e) => {
                 setSort(e.target.value);
                 setPage(1);
+                dispatch(
+                  fetchAllProducts({ page: 1, category, sort: e.target.value })
+                );
               }}
               value={sort}
             >
-              <option value="default">default</option>
-              <option value="lowestPrice">lowestPrice</option>
-              <option value="heightPrice">heightPrice</option>
+              <option value="-created_at">default</option>
+              <option value="price">lowestPrice</option>
+              <option value="-price">heightPrice</option>
             </select>
           </div>
           <div className="mx-auto px-6 py-5 flex flex-col items-center justify-center md:flex-row flex-wrap gap-5">

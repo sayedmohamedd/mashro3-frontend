@@ -7,12 +7,14 @@ const url = `${URL}/api/v1/products`;
 // Get All Products
 export const fetchAllProducts = createAsyncThunk(
   'products/fetchAllProducts',
-  async ({ page, category }) => {
+  async ({ page, category, sort }) => {
     let res;
     if (category === '') {
-      res = await axios.get(url + `?page=${page}`);
+      res = await axios.get(url + `?page=${page}&sort=${sort}`);
     } else {
-      res = await axios.get(url + `?page=${page}&category=${category}`);
+      res = await axios.get(
+        url + `?page=${page}&category=${category}&sort=${sort}`
+      );
     }
     return res.data;
   }

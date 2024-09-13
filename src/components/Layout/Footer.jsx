@@ -1,14 +1,12 @@
+// React Router
 import { Link } from 'react-router-dom';
+// Icons
 import { BsFacebook, BsWhatsapp } from 'react-icons/bs';
 import { AiFillInstagram, AiFillGithub } from 'react-icons/ai';
+// Utils
+import { scrollTop } from '../../utils/helper';
 
 const Footer = () => {
-  const scrollTop = () => {
-    setTimeout(() => {
-      window.scrollTo(0, 0);
-    }, 0);
-  };
-
   return (
     <footer className=" bg-[#131921] text-white">
       <div className="container mx-auto flex flex-wrap justify-center md:justify-between items-center px-4 py-8 gap-5">
@@ -25,7 +23,7 @@ const Footer = () => {
         <div className="w-full md:w-1/2 lg:w-1/4">
           <ul className="flex flex-col font-medium text-lg text-center gap-3">
             <li>
-              <Link to="/" onClick={() => window.scrollTo(0, 0)}>
+              <Link to="/" onClick={scrollTop}>
                 Home
               </Link>
             </li>

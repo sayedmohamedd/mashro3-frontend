@@ -18,13 +18,17 @@ import { fetchAllProducts } from '../redux/features/productReducer';
 
 import url from './../utils/url';
 import SkeletonProduct from '../components/Skeleton/SkeletonProduct';
+import { scrollTop } from '../utils/helper';
 
 const MainPage = ({ api }) => {
   const dispatch = useDispatch();
   const { products, status } = useSelector((state) => state.products);
   const [clothes, setClothes] = useState([]);
+  // const [clothesStatus, setClothesStatus] = useState('loading')
   const [elecrtonics, setElecrtonics] = useState([]);
+  // const [elecrtonicsStatus, setElecrtonicsStatus] = useState([]);
   const [mobiles, setMobiles] = useState([]);
+  // const [mobilesStatus, setMobilesStatus] = useState([]);
 
   // Fetch Latest Products
   useEffect(() => {
@@ -65,6 +69,12 @@ const MainPage = ({ api }) => {
         .catch((err) => console.log(err));
     };
     fetchEloctronics();
+    return () => {};
+  }, []);
+
+  // Scroll Top
+  useEffect(() => {
+    scrollTop();
     return () => {};
   }, []);
 

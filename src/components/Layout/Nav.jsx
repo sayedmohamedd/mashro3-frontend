@@ -1,6 +1,7 @@
 // Hooks
 import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
+// React Router
 import { Link } from 'react-router-dom';
 
 // icons
@@ -12,16 +13,15 @@ import { motion } from 'framer-motion';
 // React Redux
 import { useDispatch, useSelector } from 'react-redux';
 // Actions
-import { logout } from './../redux/features/userReducer';
-import { fetchCartProducts } from '../redux/features/cartReducer';
-import { fetchCategories } from '../redux/features/categoryReducer';
+import { logout } from './../../redux/features/userReducer';
+import { fetchCartProducts } from './../../redux/features/cartReducer';
 
 // Images
-import logo from './../assets/commerce.png';
+import logo from './../../assets/commerce.png';
 
 // Utils
-import { scrollTop } from './../utils/helper';
-import url from './../utils/url';
+import { scrollTop } from './../../utils/helper';
+import url from './../../utils/url';
 
 const Nav = () => {
   const dispatch = useDispatch();
@@ -184,7 +184,7 @@ const Nav = () => {
                 <>
                   <AiOutlineShoppingCart className="text-3xl" />
                   <span className="absolute top-[-15px] right-[-5px] text-red-500">
-                    {cartCount()}
+                    {cartCount() ? cartCount() : ''}
                   </span>
                 </>
               )}

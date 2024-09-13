@@ -1,10 +1,10 @@
 // Hooks
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 // React Router
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { determineTotalPrice } from '../utils/helper';
+import { determineTotalPrice, scrollTop } from '../utils/helper';
 
 const Checkout = () => {
   // Redux State
@@ -21,13 +21,8 @@ const Checkout = () => {
   const [zip_code, setZipCode] = useState('');
   const [card_number, setCardNumber] = useState('');
 
-  const scrollTop = () => {
-    window.scrollTo(0, 0);
-  };
-
   const next = (e) => {
     e.preventDefault();
-    scrollTop();
     if (first_name && last_name && email && address && city && zip_code) {
       shipping.current.classList.add('hidden');
       order.current.classList.remove('hidden');
@@ -37,9 +32,9 @@ const Checkout = () => {
 
   const back = (e) => {
     e.preventDefault();
+    scrollTop();
     shipping.current.classList.remove('hidden');
     order.current.classList.add('hidden');
-    scrollTop();
   };
 
   const pay = (e) => {
@@ -48,9 +43,14 @@ const Checkout = () => {
       shipping.current.classList.add('hidden');
       order.current.classList.add('hidden');
       bill.current.classList.remove('hidden');
-      scrollTop();
     }
   };
+
+  // Scroll Top
+  useEffect(() => {
+    scrollTop();
+    return () => {};
+  });
 
   return (
     <>

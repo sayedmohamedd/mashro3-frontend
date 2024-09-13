@@ -1,5 +1,5 @@
 // Hooks
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 // React Router
 import { Link, useNavigate } from 'react-router-dom';
@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import { login } from '../../redux/features/userReducer';
 import { fetchCartProducts } from '../../redux/features/cartReducer';
 import url from '../../utils/url';
+import { scrollTop } from '../../utils/helper';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -17,19 +18,26 @@ const Login = () => {
   const [result, setResult] = useState('');
   const navigate = useNavigate();
 
+  // Login Function
   const handleLogin = (e) => {
     e.preventDefault();
     axios
       .post(`${url}/api/v1/users/login`, { email, password })
       .then((res) => {
-        localStorage.setItem('user', JSON.stringify(res.data.data.user));
-        localStorage.setItem('token', res.data.token);
-        dispatch(login());
+        const token = res?.data?.token;
+        const user = JSON.stringify(res?.data?.data?.user);
+        dispatch(login({ token, user }));
         dispatch(fetchCartProducts());
         navigate('/');
       })
       .catch((err) => setResult(err.response.data.message));
   };
+
+  // Scroll Top
+  useEffect(() => {
+    scrollTop();
+    return () => {};
+  }, []);
 
   return (
     <section className="conatiner mx-auto min-h-[82vh]">
