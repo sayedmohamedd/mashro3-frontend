@@ -7,8 +7,8 @@ const CustomCard = () => {
       color: '#32325d',
       fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
       fontSize: '16px',
-      lineHeight: '24px',
-      padding: '10px',
+      // lineHeight: '24px',
+      // padding: '10px',
       '::placeholder': {
         color: '#aab7c4',
       },

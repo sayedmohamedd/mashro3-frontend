@@ -1,5 +1,5 @@
 // Hooks
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // React Router
 import { useNavigate } from 'react-router-dom';
 // Stripe
@@ -16,6 +16,7 @@ import CustomCard from '../components/CustomCard';
 // React Toastify
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { scrollTop } from '../utils/helper';
 
 const stripePromise = loadStripe(
   'pk_test_51PycR2FvwLyiKJ6iy7Y5QM8O88aJxyKqjQPCMFJXMShBhKDjCjEVVfznJHQa7Mzr0ykkrV40RuzHxU2B6rWAPmmN00xEwH8dvR'
@@ -98,6 +99,11 @@ const PaymentPage = () => {
     const data = await response.json();
     setClientSecret(data.clientSecret);
   };
+
+  useEffect(() => {
+    scrollTop();
+    return () => {};
+  }, []);
 
   return (
     <section>
