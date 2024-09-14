@@ -107,7 +107,7 @@ const PaymentPage = () => {
           <div className="w-full flex justify-center">
             <button
               onClick={createPaymentIntent}
-              onTouchStart={createPaymentIntent}
+              // onTouchStart={createPaymentIntent}
               className="p-3 bg-green-500 rounded-md text-white mx-auto"
             >
               Create Payment
