@@ -96,6 +96,12 @@ const PaymentPage = () => {
         body: JSON.stringify({ amount: 1000 }), // Amount in cents
       }
     );
+
+    if (!response.ok) {
+      window.alert('something went wrong');
+      throw new Error('Something went wrong');
+    }
+
     const data = await response.json();
     setClientSecret(data.clientSecret);
   };
