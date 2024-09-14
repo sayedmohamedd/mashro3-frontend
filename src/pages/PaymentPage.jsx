@@ -17,6 +17,7 @@ import CustomCard from '../components/CustomCard';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { scrollTop } from '../utils/helper';
+import url from '../utils/url';
 
 const stripePromise = loadStripe(
   'pk_test_51PycR2FvwLyiKJ6iy7Y5QM8O88aJxyKqjQPCMFJXMShBhKDjCjEVVfznJHQa7Mzr0ykkrV40RuzHxU2B6rWAPmmN00xEwH8dvR'
@@ -88,22 +89,25 @@ const PaymentPage = () => {
   const [clientSecret, setClientSecret] = useState('');
 
   const createPaymentIntent = async () => {
-    const response = await fetch(
-      'http://localhost:3002/api/v1/payment/create-payment-intent',
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ amount: 1000 }), // Amount in cents
+    try {
+      const response = await fetch(
+        `${url}/api/v1/payment/create-payment-intent`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ amount: 1000 }), // Amount in cents
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error('Something went wrong');
       }
-    );
 
-    if (!response.ok) {
-      window.alert('something went wrong');
-      throw new Error('Something went wrong');
+      const data = await response.json();
+      setClientSecret(data.clientSecret);
+    } catch (err) {
+      console.log(err.message);
     }
-
-    const data = await response.json();
-    setClientSecret(data.clientSecret);
   };
 
   useEffect(() => {
