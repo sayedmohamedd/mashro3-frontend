@@ -46,13 +46,37 @@ const Footer = () => {
         <div className="w-full md:w-1/2 lg:w-1/4">
           <h1 className="text-xl font-medium my-3 text-center">Contact Info</h1>
           <ul className="flex flex-col gap-3 text-center">
-            <li>sayedmohamed123.sm74@gmail.com</li>
+            <li>sayedmo.web.developer@gmail.com</li>
             <li>0110-212-8186</li>
             <li className="flex justify-evenly text-2xl">
-              <BsFacebook />
-              <AiFillGithub />
-              <AiFillInstagram />
-              <BsWhatsapp />
+              <a
+                href="https://www.facebook.com/sayed.muhammed.54922/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <BsFacebook />
+              </a>
+              <a
+                href="https://github.com/sayedmuhammed74/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <AiFillGithub />
+              </a>
+              <a
+                href="https://www.instagram.com/_sayedmuhammed/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <AiFillInstagram />
+              </a>
+              <a
+                href="https://wa.link/ulh5l2"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <BsWhatsapp />
+              </a>
             </li>
           </ul>
         </div>
