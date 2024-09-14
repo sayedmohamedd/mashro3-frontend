@@ -48,6 +48,7 @@ const CheckoutForm = ({ clientSecret }) => {
     if (error) {
       setError(error.message);
     } else {
+      setError('');
       toast.success('Payment successful!');
       setTimeout(() => {
         navigate('/');
