@@ -52,7 +52,7 @@ const CheckoutForm = ({ clientSecret }) => {
       toast.success('Payment successful!');
       setTimeout(() => {
         navigate('/');
-      }, 2000);
+      }, 1500);
     }
   };
 
@@ -102,12 +102,13 @@ const PaymentPage = () => {
   return (
     <section>
       <div className="container mx-auto px-6 py-5 flex flex-col items-center h-fit bg-white min-h-[80vh]">
-        <h1 className="font-semibold text-2xl my-5 text-slate-900">Checkout</h1>
+        <h1 className="font-semibold text-2xl my-5 text-slate-900">
+          {clientSecret}
+        </h1>
         <div className="w-full">
           <div className="w-full flex justify-center">
             <button
               onClick={createPaymentIntent}
-              // onTouchStart={createPaymentIntent}
               className="p-3 bg-green-500 rounded-md text-white mx-auto"
             >
               Create Payment
