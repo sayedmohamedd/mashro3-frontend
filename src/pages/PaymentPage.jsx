@@ -114,9 +114,8 @@ const PaymentPage = () => {
   return (
     <section>
       <div className="container mx-auto px-6 py-5 flex flex-col items-center h-fit bg-white min-h-[80vh]">
-        <h1 className="font-semibold text-2xl my-5 text-slate-900">
-          {clientSecret}
-        </h1>
+        {/* <h1 className="font-semibold text-2xl my-5 text-slate-900">
+        </h1> */}
         <div className="w-full">
           <div className="w-full flex justify-center">
             <button
