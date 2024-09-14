@@ -36,12 +36,36 @@ function App() {
                 </AuthProvider>
               }
             />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/payment" element={<PaymentPage />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route
+              path="/checkout"
+              element={
+                <AuthProvider>
+                  <Checkout />
+                </AuthProvider>
+              }
+            />
+            <Route
+              path="/payment"
+              element={
+                <AuthProvider>
+                  <PaymentPage />
+                </AuthProvider>
+              }
+            />
             <Route path="/products/:slug" element={<ProductPage />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route
+              path="/login"
+              element={
+                !localStorage.getItem('token') ? <Login /> : <MainPage />
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                !localStorage.getItem('token') ? <Register /> : <MainPage />
+              }
+            />
           </Routes>
         </Layout>
       </BrowserRouter>
