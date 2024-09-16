@@ -30,7 +30,7 @@ const Login = () => {
         dispatch(fetchCartProducts());
         navigate('/');
       })
-      .catch((err) => setResult(err.response.data.message));
+      .catch((err) => setResult(err?.response?.data?.message));
   };
 
   // Scroll Top

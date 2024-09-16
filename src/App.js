@@ -5,7 +5,6 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Checkout from './pages/Checkout';
 import Contact from './components/Contact';
 import Layout from './components/Layout/Layout';
-import AuthProvider from './pages/auth/AuthProvider';
 
 // Pages
 import MainPage from './pages/MainPage';
@@ -15,10 +14,17 @@ import ProductPage from './pages/ProductPage';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import PaymentPage from './pages/PaymentPage';
+import Dashboard from './pages/Dashboard';
+import AddProductPage from './pages/AddProductPage';
+
+// Protect Routes Components
+import ProtectedRoutes from './components/ProtectRoutes/ProtectedRoutes';
+import AuthRoutes from './components/ProtectRoutes/AuthRoutes';
 
 // React Redux
 import { Provider } from 'react-redux';
 import store from './redux/store';
+import AdminRoutes from './components/ProtectRoutes/AdminRoutes';
 
 function App() {
   return (
@@ -28,44 +34,25 @@ function App() {
           <Routes>
             <Route path="/" element={<MainPage />} />
             <Route path="/store" element={<Store />} />
-            <Route
-              path="/cart"
-              element={
-                <AuthProvider>
-                  <Cart />
-                </AuthProvider>
-              }
-            />
-            <Route
-              path="/checkout"
-              element={
-                <AuthProvider>
-                  <Checkout />
-                </AuthProvider>
-              }
-            />
-            <Route
-              path="/payment"
-              element={
-                <AuthProvider>
-                  <PaymentPage />
-                </AuthProvider>
-              }
-            />
+            <Route element={<ProtectedRoutes />}>
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/checkout" element={<Checkout />} />
+              <Route path="/payment" element={<PaymentPage />} />
+            </Route>
+            {/* Admin Routes*/}
+            <Route element={<AdminRoutes />}>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route
+                path="/dashboard/addProduct"
+                element={<AddProductPage />}
+              />
+            </Route>
             <Route path="/products/:slug" element={<ProductPage />} />
             <Route path="/contact" element={<Contact />} />
-            <Route
-              path="/login"
-              element={
-                !localStorage.getItem('token') ? <Login /> : <MainPage />
-              }
-            />
-            <Route
-              path="/register"
-              element={
-                !localStorage.getItem('token') ? <Register /> : <MainPage />
-              }
-            />
+            <Route element={<AuthRoutes />}>
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+            </Route>
           </Routes>
         </Layout>
       </BrowserRouter>

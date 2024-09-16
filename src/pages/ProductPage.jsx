@@ -63,7 +63,7 @@ const ProductPage = () => {
       <div className="container mx-auto my-5 p-5 flex flex-col md:flex-row gap-7 rounded-md bg-white">
         <div className="md:w-1/2 max-h-[70vh] flex justify-center items-center p-5 rounded-md">
           <img
-            src={product?.image?.slice(1, product?.image?.length)}
+            src={product?.image}
             className="aspect-square object-contain max-h-[90%] max-w-[90%] md:max-h-[100%] md:max-w-[100%]"
             alt={product?.name}
           />

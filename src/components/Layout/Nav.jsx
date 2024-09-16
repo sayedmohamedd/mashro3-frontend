@@ -159,10 +159,16 @@ const Nav = () => {
           <li>
             <Link to="/store">Store</Link>
           </li>
-          <li>Offers</li>
+          {user?.role === 'admin' && (
+            <li>
+              <Link to="/dashboard">Dashbaord</Link>
+            </li>
+          )}
           {/* <li>Favourite</li> */}
           <li>
-            <Link to="/contact">Contact</Link>
+            <Link to="/contact" className="">
+              Contact Us
+            </Link>
           </li>
         </ul>
         <div className="flex items-center gap-3">

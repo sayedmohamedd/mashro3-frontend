@@ -32,7 +32,7 @@ const MainPage = ({ api }) => {
 
   // Fetch Latest Products
   useEffect(() => {
-    dispatch(fetchAllProducts({ page: 1, category: '' }));
+    dispatch(fetchAllProducts({ page: 1, category: '', sort: '-created_at' }));
     return () => {};
   }, [dispatch]);
 
