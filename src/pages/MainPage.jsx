@@ -16,11 +16,13 @@ import { useDispatch, useSelector } from 'react-redux';
 // Actions
 import { fetchAllProducts } from '../redux/features/productReducer';
 
-import url from './../utils/url';
+// Skeleton
 import SkeletonProduct from '../components/Skeleton/SkeletonProduct';
+// Utils
+import url from './../utils/url';
 import { scrollTop } from '../utils/helper';
 
-const MainPage = ({ api }) => {
+const MainPage = () => {
   const dispatch = useDispatch();
   const { products, status } = useSelector((state) => state.products);
   const [clothes, setClothes] = useState([]);
@@ -32,7 +34,7 @@ const MainPage = ({ api }) => {
 
   // Fetch Latest Products
   useEffect(() => {
-    dispatch(fetchAllProducts({ page: 1, category: '', sort: '-created_at' }));
+    dispatch(fetchAllProducts({ page: 1, category: '', sort: '-createdAt' }));
     return () => {};
   }, [dispatch]);
 
@@ -82,7 +84,7 @@ const MainPage = ({ api }) => {
     <>
       <Advertisments />
       {/* <Offers /> */}
-      <Categories api={api} />
+      <Categories />
       {/* latest */}
       <section className="my-12">
         <div className="container mx-auto px-6 py-5 text-center rounded-3xl shadow-2xl bg-white">
