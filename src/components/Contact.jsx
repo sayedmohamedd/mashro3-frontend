@@ -1,24 +1,52 @@
+// Hooks
 import { useState, useEffect } from 'react';
+// Utils
+import { scrollTop } from '../utils/helper';
+import emailjs from 'emailjs-com';
+import { toast, ToastContainer } from 'react-toastify';
+
+const serviceID = 'service_yqo2wof';
+const templateID = 'template_tl3kxz8';
+const userID = '_Rz7rINg07A9kFJyv';
 
 const Contact = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
+  const [formData, setFormData] = useState({});
 
-  useEffect(() => {
-    scrollTop();
-  }, []);
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const submitForm = (e) => {
     e.preventDefault();
+    emailjs
+      .send(serviceID, templateID, formData, userID)
+      .then(() => {
+        toast.success('Email successfully sent');
+        setFormData({ name: '', email: '', message: '' });
+      })
+      .catch((err) => console.log(err));
   };
 
-  const scrollTop = () => {
-    window.scrollTo(0, 0);
-  };
+  // Scroll Top
+  useEffect(() => {
+    scrollTop();
+    return () => {};
+  }, []);
 
   return (
-    <div className="h-[100vh] container mx-auto mt-7">
+    <section className="min-h-[100vh] container mx-auto px-5 mt-8">
+      <ToastContainer
+        position="top-center"
+        autoClose={1500}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        draggable
+        pauseOnFocusLoss
+      />
       <h1 className="text-center text-2xl text-slate-900 font-medium mb-6">
         Contact Us
       </h1>
@@ -29,22 +57,25 @@ const Contact = () => {
         <input
           placeholder="name"
           type="text"
+          name="name"
           className="border-b py-2 px-3 rounded-md bg-gray-200 focus:bg-gray-100"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={formData?.name}
+          onChange={handleChange}
         />
         <input
           placeholder="email"
           type="email"
+          name="email"
           className="border-b py-2 px-3 rounded-md bg-gray-200 focus:bg-gray-100"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={formData?.email}
+          onChange={handleChange}
         />
         <textarea
           placeholder="message"
           className="border-b py-2 px-3 rounded-md min-h-[100px] bg-gray-200 focus:bg-gray-100"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          name="message"
+          value={formData?.message}
+          onChange={handleChange}
         />
         <button
           type="submit"
@@ -53,7 +84,7 @@ const Contact = () => {
           Send
         </button>
       </form>
-    </div>
+    </section>
   );
 };
 

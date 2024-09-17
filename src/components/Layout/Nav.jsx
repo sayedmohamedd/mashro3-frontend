@@ -22,6 +22,7 @@ import logo from './../../assets/commerce.png';
 // Utils
 import { scrollTop } from './../../utils/helper';
 import url from './../../utils/url';
+import DropDownMenu from '../DropDownMenu';
 
 const Nav = () => {
   const dispatch = useDispatch();
@@ -52,13 +53,6 @@ const Nav = () => {
     dispatch(fetchCartProducts());
     return () => {};
   }, [dispatch]);
-
-  // Logout
-  const handleLogout = () => {
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-    dispatch(logout());
-  };
 
   // Search
   const searchFunction = async (searchValue) => {
@@ -172,11 +166,9 @@ const Nav = () => {
           </li>
         </ul>
         <div className="flex items-center gap-3">
-          <div ref={searchIcon}>
+          <div ref={searchIcon} className="hidden d:inline">
             <AiOutlineSearch
               className=" flex lg:hidden cursor-pointer"
-              // ref={searchIcon}
-              // onClick={toggleSearch}
               size={24}
             />
           </div>
@@ -199,16 +191,22 @@ const Nav = () => {
 
           {/* LOGIN */}
           {!user && (
-            <Link to="/login" onClick={scrollTop}>
+            <Link to="/login" className="hidden md:inline">
               <span>Login</span>
             </Link>
           )}
           {/* LOGOUT */}
           {user && (
-            <Link to="/" onClick={handleLogout}>
+            <Link
+              to="/"
+              onClick={() => dispatch(logout())}
+              className="hidden md:inline"
+            >
               <span>Logout</span>
             </Link>
           )}
+          {/* Drop Menu */}
+          <DropDownMenu />
         </div>
       </div>
     </motion.nav>

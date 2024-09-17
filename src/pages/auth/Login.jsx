@@ -25,7 +25,7 @@ const Login = () => {
       .post(`${url}/api/v1/users/login`, { email, password })
       .then((res) => {
         const token = res?.data?.token;
-        const user = JSON.stringify(res?.data?.data?.user);
+        const user = res?.data?.data?.user;
         dispatch(login({ token, user }));
         dispatch(fetchCartProducts());
         navigate('/');

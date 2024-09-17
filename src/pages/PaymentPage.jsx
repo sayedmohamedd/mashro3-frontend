@@ -74,7 +74,7 @@ const CheckoutForm = ({ clientSecret }) => {
       {/* {success && <div className="mt-2 text-green-500">{success}</div>} */}
       <ToastContainer
         position="top-center"
-        autoClose={2000}
+        autoClose={1500}
         hideProgressBar={false}
         closeOnClick
         pauseOnHover

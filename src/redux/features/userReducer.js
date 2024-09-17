@@ -7,12 +7,11 @@ const userSlice = createSlice({
       ? JSON.parse(localStorage.getItem('user'))
       : undefined,
     status: 'idle',
-    error: '',
   },
   reducers: {
     login: (state, action) => {
       state.user = action.payload.user;
-      localStorage.setItem('user', action.payload.user);
+      localStorage.setItem('user', JSON.stringify(action.payload.user));
       localStorage.setItem('token', action.payload.token);
     },
     logout: (state) => {

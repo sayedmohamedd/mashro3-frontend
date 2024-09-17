@@ -9,7 +9,6 @@ import axios from 'axios';
 
 // Animation
 import { motion } from 'framer-motion';
-import { toast } from 'react-toastify';
 
 // React Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -36,7 +35,6 @@ const Product = ({ product, loading }) => {
           }
         )
         .then(() => {
-          toast.success('Added To Cart');
           dispatch(fetchCartProducts());
         })
         .catch((err) => console.log(err));

@@ -13,10 +13,11 @@ import { fetchCartProducts, resetCart } from '../redux/features/cartReducer';
 import { determineTotalPrice, scrollTop } from '../utils/helper';
 
 import url from './../utils/url';
+import { TailSpin } from 'react-loader-spinner';
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const cart = useSelector((state) => state.cart.cart);
+  const { cart, status } = useSelector((state) => state.cart);
 
   // Fetch Cart Products
   useEffect(() => {
@@ -51,12 +52,24 @@ const Cart = () => {
           <h1 className="font-semibold text-2xl mb-5 text-slate-900">
             Your Shopping Cart
           </h1>
-          {cart.length === 0 && (
+          {cart.length === 0 && status === 'success' && (
             <h1 className="text-center font-medium text-slate-900 text-3xl my-5">
               Empty
             </h1>
           )}
           <div className="flex flex-col md:flex-row flex-wrap justify-center space-y-1 gap-5">
+            {status === 'loading' && (
+              <div className="flex justify-center items-center">
+                <TailSpin
+                  visible={true}
+                  height="50"
+                  width="50"
+                  color="#4fa94d"
+                  ariaLabel="tail-spin-loading"
+                  radius="1"
+                />
+              </div>
+            )}
             {cart.map((el) => (
               <CartProduct el={el} key={el?._id} />
             ))}
