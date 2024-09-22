@@ -6,6 +6,9 @@ module.exports = {
       colors: {
         primray: '#131921',
       },
+      fontFamily: {
+        sans: ['Roboto', 'sans-serif'], // Adjust as needed
+      },
     },
   },
 

@@ -21,7 +21,7 @@ import url from '../utils/url';
 
 const stripePromise = loadStripe(
   'pk_test_51PycR2FvwLyiKJ6iy7Y5QM8O88aJxyKqjQPCMFJXMShBhKDjCjEVVfznJHQa7Mzr0ykkrV40RuzHxU2B6rWAPmmN00xEwH8dvR'
-);
+).catch((err) => console.log(err));
 
 const CheckoutForm = ({ clientSecret }) => {
   const stripe = useStripe();

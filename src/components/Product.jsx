@@ -53,7 +53,7 @@ const Product = ({ product, loading }) => {
           className={`aspect-square ${loading ? 'opacity-70' : 'opacity-100'}`}
         />
         <div className="flex justify-between">
-          <h1 className="font-medium text-xl">
+          <h1 className="font-medium text-lg">
             <Link to={`/products/${product?.slug}`}>{product?.name}</Link>
           </h1>
           <span className="font-medium text-lg">{product?.price}$</span>

@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from 'react-redux';
 // Actions
 import { fetchAllProducts } from '../redux/features/productReducer';
 import { scrollTop } from '../utils/helper';
+import { TailSpin } from 'react-loader-spinner';
 
 const Store = ({ api }) => {
   const [category, setCategory] = useState('');
@@ -51,6 +52,7 @@ const Store = ({ api }) => {
   // Scroll Top
   useEffect(() => {
     scrollTop();
+    return () => {};
   }, []);
 
   return (
@@ -103,7 +105,19 @@ const Store = ({ api }) => {
               <option value="-price">heightPrice</option>
             </select>
           </div>
-          <div className="mx-auto px-6 py-5 flex flex-col items-center justify-center md:flex-row flex-wrap gap-5">
+          <div className="min-h-[80vh] mx-auto px-6 py-5 flex flex-col items-center justify-center md:flex-row flex-wrap gap-5">
+            {status === 'loading' && (
+              <div className="flex justify-center items-center">
+                <TailSpin
+                  visible={true}
+                  height="50"
+                  width="50"
+                  color="#4fa94d"
+                  ariaLabel="tail-spin-loading"
+                  radius="1"
+                />
+              </div>
+            )}
             {products.map((product) => (
               <Product
                 product={product}

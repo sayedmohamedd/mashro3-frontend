@@ -15,7 +15,6 @@ import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import PaymentPage from './pages/PaymentPage';
 import Dashboard from './pages/Dashboard';
-import AddProductPage from './pages/AddProductPage';
 
 // Protect Routes Components
 import ProtectedRoutes from './components/ProtectRoutes/ProtectedRoutes';
@@ -43,10 +42,6 @@ function App() {
             {/* Admin Routes*/}
             <Route element={<AdminRoutes />}>
               <Route path="/dashboard" element={<Dashboard />} />
-              <Route
-                path="/dashboard/addProduct"
-                element={<AddProductPage />}
-              />
             </Route>
             <Route path="/products/:slug" element={<ProductPage />} />
             <Route path="/contact" element={<Contact />} />

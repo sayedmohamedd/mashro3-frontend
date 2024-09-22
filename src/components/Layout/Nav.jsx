@@ -22,6 +22,8 @@ import logo from './../../assets/commerce.png';
 // Utils
 import { scrollTop } from './../../utils/helper';
 import url from './../../utils/url';
+
+// Components
 import DropDownMenu from '../DropDownMenu';
 
 const Nav = () => {
@@ -39,6 +41,7 @@ const Nav = () => {
 
   // State
   const [products, setProducts] = useState([]);
+  const [toggleMobileSearch, setToggleMobileSearch] = useState(false);
 
   const cartCount = () => {
     let count = 0;
@@ -75,11 +78,10 @@ const Nav = () => {
     >
       <div className="container mx-auto px-6 py-4 flex justify-between items-center text-white">
         {/* logo */}
-        <div>
-          <Link to="/" onClick={scrollTop}>
-            <img src={logo} alt="logo" width="44px" height="44px" />
-          </Link>
-        </div>
+        <Link to="/" onClick={scrollTop}>
+          <img src={logo} alt="logo" className="w-11 h-11" />
+        </Link>
+
         {/* search */}
         <div className="hidden lg:flex flex-col">
           <input
@@ -92,11 +94,8 @@ const Nav = () => {
             onChange={(e) => searchFunction(e.target.value)}
             onFocus={(e) => searchFunction(e.target.value)}
           />
-          <div
-            className="relative"
-            // onMouseLeave={setProducts([])}
-            onClick={() => setProducts([])}
-          >
+          {/* Products Search List */}
+          <div className="relative" onClick={() => setProducts([])}>
             <ul
               className={`rounded-bl-md rounded-br-md absolute w-full flex flex-col gap-1 ${
                 products ? '' : 'p-2'
@@ -108,7 +107,10 @@ const Nav = () => {
                   key={product?._id}
                   onClick={() => (inputSearch.current.value = '')}
                 >
-                  <li key={product?._id} className="flex gap-3 px-3">
+                  <li
+                    key={product?._id}
+                    className="flex gap-3 px-3 items-center"
+                  >
                     <img
                       className="w-10 h-10"
                       src={product?.image}
@@ -122,13 +124,14 @@ const Nav = () => {
           </div>
         </div>
 
-        <ul className="hidden md:flex space-x-5">
+        {/* Navbar Buttons */}
+        <ul className="hidden lg:flex space-x-5">
           <li>
             <Link to="/" onClick={scrollTop}>
               Home
             </Link>
           </li>
-          <li className="">
+          <li>
             <div
               className="flex gap-1 items-center cursor-pointer"
               onClick={() =>
@@ -153,22 +156,73 @@ const Nav = () => {
           <li>
             <Link to="/store">Store</Link>
           </li>
+          <li>
+            <Link to="/contact" className="">
+              Contact Us
+            </Link>
+          </li>
           {user?.role === 'admin' && (
             <li>
               <Link to="/dashboard">Dashbaord</Link>
             </li>
           )}
           {/* <li>Favourite</li> */}
-          <li>
-            <Link to="/contact" className="">
-              Contact Us
-            </Link>
-          </li>
         </ul>
+
         <div className="flex items-center gap-3">
-          <div ref={searchIcon} className="hidden d:inline">
+          <div
+            className={`${
+              toggleMobileSearch ? 'inline' : 'hidden'
+            } flex-col lg:hidden`}
+            onMouseLeave={() => setToggleMobileSearch(false)}
+          >
+            <input
+              ref={inputSearch}
+              type="search"
+              placeholder="Serach"
+              className={`lg:hidden px-4 py-1 text-slate-900 rounded-xl ${
+                products.length === 0 ? '' : 'rounded-br-none rounded-bl-none'
+              } focus:outline-none`}
+              onChange={(e) => searchFunction(e.target.value)}
+              onFocus={(e) => searchFunction(e.target.value)}
+            />
+            {/* Products Search List */}
+            <div className="relative" onClick={() => setProducts([])}>
+              <ul
+                className={`rounded-bl-md rounded-br-md absolute w-full flex flex-col gap-1 ${
+                  products ? '' : 'p-2'
+                } bg-white text-slate-900`}
+              >
+                {products.map((product) => (
+                  <Link
+                    to={`/products/${product?.slug}`}
+                    key={product?._id}
+                    onClick={() => (inputSearch.current.value = '')}
+                  >
+                    <li
+                      key={product?._id}
+                      className="flex gap-3 px-3 items-center"
+                    >
+                      <img
+                        className="w-10 h-10"
+                        src={product?.image}
+                        alt={product?.name}
+                      />
+                      <span className="font-medium">{product?.name}</span>
+                    </li>
+                  </Link>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div
+            ref={searchIcon}
+            className={`${toggleMobileSearch ? 'hidden' : 'inline'}`}
+            onClick={() => setToggleMobileSearch((prev) => !prev)}
+          >
             <AiOutlineSearch
-              className=" flex lg:hidden cursor-pointer"
+              className="flex lg:hidden cursor-pointer"
               size={24}
             />
           </div>
@@ -191,8 +245,8 @@ const Nav = () => {
 
           {/* LOGIN */}
           {!user && (
-            <Link to="/login" className="hidden md:inline">
-              <span>Login</span>
+            <Link to="/login" className="hidden lg:inline">
+              Login
             </Link>
           )}
           {/* LOGOUT */}
@@ -200,9 +254,9 @@ const Nav = () => {
             <Link
               to="/"
               onClick={() => dispatch(logout())}
-              className="hidden md:inline"
+              className="hidden lg:inline"
             >
-              <span>Logout</span>
+              Logout
             </Link>
           )}
           {/* Drop Menu */}

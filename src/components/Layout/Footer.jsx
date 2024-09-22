@@ -28,17 +28,11 @@ const Footer = () => {
               </Link>
             </li>
             <li>
-              <Link to="/store" onClick={scrollTop}>
-                Store
-              </Link>
+              <Link to="/store">Store</Link>
             </li>
+            <li>Offers</li>
             <li>
-              <Link to="/offers">Offers</Link>
-            </li>
-            <li>
-              <Link to="/contact" onClick={scrollTop}>
-                Contact
-              </Link>
+              <Link to="/contact">Contact Us</Link>
             </li>
           </ul>
         </div>

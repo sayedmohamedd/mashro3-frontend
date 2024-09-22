@@ -28,10 +28,10 @@ const CartProduct = ({ el }) => {
   // Increase Product Function
   const increaseProductByOne = async () => {
     await axios
-      .post(
-        `${url}/api/V1/cart`,
+      .patch(
+        `${url}/api/V1/cart/increase`,
         {
-          product_id: el?.product?._id,
+          id: el?._id,
         },
         {
           headers: {
@@ -47,7 +47,7 @@ const CartProduct = ({ el }) => {
   const decreaseProductByOne = async () => {
     await axios
       .patch(
-        `${url}/api/v1/cart`,
+        `${url}/api/v1/cart/decrease`,
         {
           id: el?._id,
         },
