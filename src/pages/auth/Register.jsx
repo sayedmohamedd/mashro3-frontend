@@ -54,20 +54,15 @@ const Register = () => {
     <section className="relative conatiner mx-auto min-h-[100vh]">
       <form
         onSubmit={handleRegister}
-        className="flex flex-col gap-4 mx-auto w-[330px] mt-8 rounded-md px-6 py-5 shadow-md bg-white"
+        className="flex flex-col gap-3 mx-auto w-[330px] mt-8 rounded-md px-6 py-5 shadow-md bg-white"
       >
         <div className="w-full mx-auto text-center flex flex-col gap-1">
-          {/* {error?.map((item) => (
-            <p key={item.msg} className="text-red-500">
-              {item.msg}
-            </p>
-          ))} */}
           <p className="text-red-500">{error}</p>
         </div>
-        <h1 className="text-center font-bold text-2xl text-slate-900">
-          Register
+        <h1 className="text-center font-bold text-2xl text-slate-500">
+          Sign Up
         </h1>
-        <label htmlFor="username" className="text-lg text-slate-800">
+        <label htmlFor="username" className="text-base text-slate-500">
           Username
         </label>
         <input
@@ -78,7 +73,7 @@ const Register = () => {
           onChange={(e) => setUsername(e.target.value)}
           required
         />
-        <label htmlFor="email" className="text-lg text-slate-800">
+        <label htmlFor="email" className="text-base text-slate-500">
           Email
         </label>
         <input
@@ -89,7 +84,7 @@ const Register = () => {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-        <label htmlFor="password" className="text-lg text-slate-800">
+        <label htmlFor="password" className="text-base text-slate-500">
           Password
         </label>
         <input
@@ -100,7 +95,7 @@ const Register = () => {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <label htmlFor="phone" className="text-lg text-slate-800">
+        <label htmlFor="phone" className="text-base text-slate-500">
           Phone
         </label>
         <input
@@ -113,14 +108,16 @@ const Register = () => {
         />
         <button
           type="submit"
-          className="mx-auto w-24 py-1.5 rounded-md text-lg font-medium text-white bg-green-400"
+          className="mx-auto w-24 py-1 my-1.5 rounded-md text-base font-medium text-white bg-green-400"
         >
-          Register
+          Sign Up
         </button>
-        <p className="text-center text-slate-800">I already have account</p>
-        <button className="mx-auto w-24 py-1.5 rounded-md text-lg font-medium text-white bg-gray-400">
-          <Link to="/login">Login</Link>
-        </button>
+        <p className="text-center text-gray-400 text-sm">
+          I already have account
+          <Link to="/login" className="ml-2 text-green-400">
+            Login
+          </Link>
+        </p>
       </form>
     </section>
   );

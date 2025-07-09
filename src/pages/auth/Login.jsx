@@ -43,18 +43,13 @@ const Login = () => {
     <section className="conatiner mx-auto min-h-[82vh]">
       <form
         onSubmit={handleLogin}
-        className="flex flex-col gap-4 mx-auto w-[330px] mt-10 rounded-md px-6 py-5 bg-white shadow-md"
+        className="flex flex-col gap-3 mx-auto w-[330px] mt-10 rounded-md px-6 py-5 bg-white shadow-md"
       >
         <div className="w-full mx-auto text-center flex flex-col gap-1">
           {result && <p className="text-red-500">{result}</p>}
-          {/* {result?.map((item) => (
-            <p key={item.msg} className="text-red-500">
-              {item.msg}
-            </p>
-          ))} */}
         </div>
-        <h1 className="text-center font-bold text-2xl text-slate-900">Login</h1>
-        <label htmlFor="email" className="text-lg text-slate-800">
+        <h1 className="text-center font-bold text-2xl text-slate-500">Login</h1>
+        <label htmlFor="email" className="text-base font-medium text-slate-500">
           Email
         </label>
         <input
@@ -65,7 +60,10 @@ const Login = () => {
           onChange={(e) => setEmail(e.target.value)}
           required
         />
-        <label htmlFor="password" className="text-lg text-slate-800">
+        <label
+          htmlFor="password"
+          className="font-medium text-base text-slate-500"
+        >
           Password
         </label>
         <input
@@ -78,14 +76,16 @@ const Login = () => {
         />
         <button
           type="submit"
-          className="mx-auto w-24 py-1.5 rounded-md text-lg font-medium text-white bg-green-400"
+          className="mx-auto w-24 py-1 my-1.5 rounded-md text-base font-medium text-white bg-green-400"
         >
           Login
         </button>
-        <p className="text-center text-slate-800">I have not account</p>
-        <button className="mx-auto w-24 py-1.5 rounded-md text-lg font-medium text-white bg-gray-400">
-          <Link to="/register">Register</Link>
-        </button>
+        <p className="text-center text-gray-400 text-sm">
+          I have no account
+          <Link to="/register" className="ml-2 text-green-400">
+            Sign up
+          </Link>
+        </p>
       </form>
     </section>
   );

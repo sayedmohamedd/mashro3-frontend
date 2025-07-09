@@ -38,6 +38,8 @@ const cartSlice = createSlice({
       }
     },
     deleteProduct: (state, action) => {
+      const index = state.cart.findIndex((item) => item._id === action.payload);
+      state.numberOfProducts -= state.cart[index].number;
       state.cart = state.cart.filter((item) => item._id !== action.payload);
     },
     addToCart: (state, action) => {},
