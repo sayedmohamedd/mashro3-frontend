@@ -30,7 +30,7 @@ const Nav = () => {
   const dispatch = useDispatch();
 
   // Redux State
-  const cart = useSelector((state) => state.cart.cart);
+  const { numberOfProducts } = useSelector((state) => state.cart);
   const categories = useSelector((state) => state.categories.categories);
   const user = useSelector((state) => state.user.user);
 
@@ -40,16 +40,16 @@ const Nav = () => {
   const inputSearch = useRef(null);
 
   // State
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState([]); // for search
   const [toggleMobileSearch, setToggleMobileSearch] = useState(false);
 
-  const cartCount = () => {
-    let count = 0;
-    cart.forEach((el) => {
-      count += el.number;
-    });
-    return count;
-  };
+  // const cartCount = () => {
+  //   let count = 0;
+  //   cart.forEach((el) => {
+  //     count += el.number;
+  //   });
+  //   return count;
+  // };
 
   // Fetch Cart
   useEffect(() => {
@@ -62,7 +62,9 @@ const Nav = () => {
     if (searchValue) {
       await axios
         .get(`${url}/api/v1/products/${searchValue}`)
-        .then((res) => setProducts(res?.data?.data?.products))
+        .then((res) => {
+          setProducts(res?.data?.data?.products);
+        })
         .catch((err) => console.log(err));
       return;
     }
@@ -79,7 +81,7 @@ const Nav = () => {
       <div className="container mx-auto px-6 py-4 flex justify-between items-center text-white">
         {/* logo */}
         <Link to="/" onClick={scrollTop}>
-          <img src={logo} alt="logo" className="w-11 h-11" />
+          <img src={logo} alt="logo" className="w-11 h-11" loading="lazy" />
         </Link>
 
         {/* search */}
@@ -115,6 +117,7 @@ const Nav = () => {
                       className="w-10 h-10"
                       src={product?.image}
                       alt={product?.name}
+                      loading="lazy"
                     />
                     <span className="font-medium">{product?.name}</span>
                   </li>
@@ -207,6 +210,7 @@ const Nav = () => {
                         className="w-10 h-10"
                         src={product?.image}
                         alt={product?.name}
+                        loading="lazy"
                       />
                       <span className="font-medium">{product?.name}</span>
                     </li>
@@ -236,7 +240,7 @@ const Nav = () => {
                 <>
                   <AiOutlineShoppingCart className="text-3xl" />
                   <span className="absolute top-[-15px] right-[-5px] text-red-500">
-                    {cartCount() ? cartCount() : ''}
+                    {numberOfProducts}
                   </span>
                 </>
               )}

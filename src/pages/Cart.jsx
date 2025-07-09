@@ -58,7 +58,7 @@ const Cart = () => {
             </h1>
           )}
           <div className="flex flex-col md:flex-row flex-wrap justify-center space-y-1 gap-5">
-            {status === 'loading' && (
+            {status === 'loading' && cart.length === 0 && (
               <div className="flex justify-center items-center">
                 <TailSpin
                   visible={true}

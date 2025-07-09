@@ -78,6 +78,7 @@ const Dashbaord = () => {
                     src={product?.image}
                     alt={product?.slug}
                     className="w-8 h-8 rounded-md"
+                    loading="lazy"
                   />
                 </li>
               ))}

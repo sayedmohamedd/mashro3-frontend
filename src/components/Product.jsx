@@ -12,15 +12,16 @@ import { motion } from 'framer-motion';
 
 // React Redux
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchCartProducts } from '../redux/features/cartReducer';
 
 // Utils
-import { fetchCartProducts } from '../redux/features/cartReducer';
 import url from '../utils/url';
 
 const Product = ({ product, loading }) => {
+  const navigate = useNavigate();
+  // Redux
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.user);
-  const navigate = useNavigate();
 
   const addToCart = async () => {
     if (user) {
@@ -34,9 +35,7 @@ const Product = ({ product, loading }) => {
             },
           }
         )
-        .then(() => {
-          dispatch(fetchCartProducts());
-        })
+        .then(() => dispatch(fetchCartProducts()))
         .catch((err) => console.log(err));
     } else {
       navigate('/login');
@@ -45,55 +44,57 @@ const Product = ({ product, loading }) => {
 
   return (
     <>
-      {/* <ToastContainer /> */}
-      <div className="md:w-1/5 flex flex-col p-3 shadow-xl space-y-1 rounded-2xl relative">
+      <div className="md:w-2/5 lg:w-1/5 flex flex-col justify-between p-3 shadow-xl space-y-1 rounded-2xl relative">
         <img
           src={product?.image}
           alt={product?.name}
           className={`aspect-square ${loading ? 'opacity-70' : 'opacity-100'}`}
+          loading="lazy"
         />
         <div className="flex justify-between">
-          <h1 className="font-medium text-lg">
+          <h4 className="font-semibold text-sm">
             <Link to={`/products/${product?.slug}`}>{product?.name}</Link>
-          </h1>
-          <span className="font-medium text-lg">{product?.price}$</span>
+          </h4>
+          <span className="text-sm">{product?.price}$</span>
         </div>
-        <p className="text-slate-500 text-left">{product?.description}</p>
-        <div className="flex text-yellow-500">
-          {/* {Array(product.rate)
-          .fill(1)
-          .map((star, index) => (
-            <BsStarFill key={index} />
-          ))} */}
-          <BsStarFill />
-          <BsStarFill />
-          <BsStarFill />
-          <BsStarHalf />
-          <BsStar />
-        </div>
-
-        <div className="flex justify-between px-2 py-3">
-          {/* like icon */}
-          <motion.div whileTap={{ scale: 1.1 }}>
-            <AiFillHeart
-              onClick={(e) => e.target.classList.toggle('text-red-500')}
-              className="text-2xl cursor-pointer hover:opacity-90 text-gray-300"
-            />
-          </motion.div>
-
-          {/* cart icon */}
-          <motion.div
-            whileTap={{
-              scale: 1.1,
-              color: '#182032',
-            }}
-            transition={{ duration: 0.6 }}
+        <div>
+          <p
+            className="font-light text-[11px] text-left text-slate-500"
+            alt={product?.description}
           >
-            <BsCartPlus
-              className="text-[26px] cursor-pointer hover:opacity-90 text-slate-900 hover:text-red-500 duration-100 ease-out"
-              onClick={() => addToCart(product?._id)}
-            />
-          </motion.div>
+            {product?.description}
+          </p>
+          <div className="flex text-yellow-500">
+            <BsStarFill />
+            <BsStarFill />
+            <BsStarFill />
+            <BsStarHalf />
+            <BsStar />
+          </div>
+
+          <div className="flex justify-between px-2 py-3">
+            {/* like icon */}
+            <motion.div whileTap={{ scale: 1.1 }}>
+              <AiFillHeart
+                onClick={(e) => e.target.classList.toggle('text-red-500')}
+                className="text-2xl cursor-pointer hover:opacity-90 text-gray-300"
+              />
+            </motion.div>
+
+            {/* cart icon */}
+            <motion.div
+              whileTap={{
+                scale: 1.1,
+                color: '#182032',
+              }}
+              transition={{ duration: 0.6 }}
+            >
+              <BsCartPlus
+                className="text-[26px] cursor-pointer hover:opacity-90 text-slate-900 hover:text-red-500 duration-100 ease-out"
+                onClick={() => addToCart(product?._id)}
+              />
+            </motion.div>
+          </div>
         </div>
       </div>
     </>

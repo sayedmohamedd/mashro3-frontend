@@ -6,64 +6,45 @@ import { Link } from 'react-router-dom';
 // React Redux
 import { useDispatch } from 'react-redux';
 // Actions
-import { fetchCartProducts } from '../redux/features/cartReducer';
+import {
+  decreaseProduct,
+  deleteProduct,
+  increaseProduct,
+} from '../redux/features/cartReducer';
 import url from '../utils/url';
+import updateAPIData from '../utils/updateAPIData';
+import deleteAPIData from '../utils/deleteAPIData';
 
 const CartProduct = ({ el }) => {
   const { product, number } = el;
   const dispatch = useDispatch();
 
   // Delete Product Function
-  const deleteProduct = async () => {
-    axios
-      .delete(`${url}/api/v1/cart/${el?._id}`, {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      })
-      .then(() => dispatch(fetchCartProducts()))
-      .catch((err) => console.log(err));
+  const dropProduct = async () => {
+    dispatch(deleteProduct(el?._id));
+    await deleteAPIData(`${url}/api/v1/cart/${el?._id}`);
   };
 
   // Increase Product Function
   const increaseProductByOne = async () => {
-    await axios
-      .patch(
-        `${url}/api/V1/cart/increase`,
-        {
-          id: el?._id,
-        },
-        {
-          headers: {
-            authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      )
-      .then(() => dispatch(fetchCartProducts()))
-      .catch((err) => console.log(err));
+    dispatch(increaseProduct(el?._id));
+    await updateAPIData(`${url}/api/V1/cart/increase`, { id: el?._id });
   };
 
   // Decrease Product Function
   const decreaseProductByOne = async () => {
-    await axios
-      .patch(
-        `${url}/api/v1/cart/decrease`,
-        {
-          id: el?._id,
-        },
-        {
-          headers: {
-            authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        }
-      )
-      .then(() => dispatch(fetchCartProducts()))
-      .catch((err) => console.log(err));
+    dispatch(decreaseProduct(el?._id));
+    await updateAPIData(`${url}/api/V1/cart/decrease`, { id: el?._id });
   };
 
   return (
     <div className="md:w-[30%] lg:w-[20%] flex flex-col p-3 shadow-xl rounded-xl bg-white">
-      <img src={product?.image} alt={product?.name} className="aspect-square" />
+      <img
+        src={product?.image}
+        alt={product?.name}
+        className="aspect-square"
+        loading="lazy"
+      />
       <div className="flex justify-between mt-4">
         <Link to={`/products/${product?.slug}`}>
           <h1 className="font-medium text-xl">{product?.name}</h1>
@@ -91,7 +72,7 @@ const CartProduct = ({ el }) => {
         </div>
         <button
           className="self-end font-medium px-2 py-1.5 rounded-md my-2 bg-red-400"
-          onClick={() => deleteProduct(product.product_id)}
+          onClick={dropProduct}
         >
           REMOVE
         </button>

@@ -66,6 +66,7 @@ const ProductPage = () => {
             src={product?.image}
             className="aspect-square object-contain max-h-[90%] max-w-[90%] md:max-h-[100%] md:max-w-[100%]"
             alt={product?.name}
+            loading="lazy"
           />
         </div>
         <div className="md:w-[40%] flex flex-col justify-evenly">

@@ -19,6 +19,8 @@ const Store = ({ api }) => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [sort, setSort] = useState('-created_at');
+
+  // Redux
   const dispatch = useDispatch();
   const { products, status } = useSelector((state) => state.products);
 
@@ -58,10 +60,11 @@ const Store = ({ api }) => {
   return (
     <>
       <h1 className="text-3xl font-medium text-center mt-10 mb-2 text-slate-900">
-        Our Store
+        Store
       </h1>
       <div className="max-w-4xl lg:container mx-auto px-6 py-5 flex flex-col md:flex-row gap-5 mb-5 min-h-[100vh]">
-        <section className=" bg-white rounded-xl">
+        {/* Options Section */}
+        <section className="bg-white rounded-xl">
           <h1 className="text-xl font-medium p-3">Filter by</h1>
           <hr />
           <div className="my-2 px-3 flex gap-3">
@@ -85,8 +88,10 @@ const Store = ({ api }) => {
             </select>
           </div>
         </section>
+
         {/* Store */}
         <section className="md:w-[80%] bg-white rounded-md pb-3">
+          {/* Sort Options */}
           <div className="flex gap-3 px-10 py-3 border-b-2 rounded-md">
             <span className="font-medium text-lg">sort by</span>
             <select

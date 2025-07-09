@@ -87,6 +87,7 @@ const Advertisments = () => {
               src="./products/product-20.jpg"
               className="aspect-square object-contain w-full h-full"
               alt=""
+              loading="lazy"
             />
           </div>
           <div className="w-[45%] h-[50%]  rounded-md">
@@ -94,6 +95,7 @@ const Advertisments = () => {
               src="./products/product-22.jpg"
               className="aspect-square object-contain w-full h-full "
               alt=""
+              loading="lazy"
             />
           </div>
           <div className="w-[45%] h-[50%]  rounded-md">
@@ -101,6 +103,7 @@ const Advertisments = () => {
               src="./products/product-23.jpg"
               className="aspect-square  object-contain w-full h-full"
               alt=""
+              loading="lazy"
             />
           </div>
           <div className="w-[45%] h-[50%] rounded-md">
@@ -108,6 +111,7 @@ const Advertisments = () => {
               src="./products/product-4.jpg"
               className="aspect-square object-contain w-full h-full"
               alt=""
+              loading="lazy"
             />
           </div>
         </motion.div>

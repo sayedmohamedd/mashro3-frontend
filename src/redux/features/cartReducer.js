@@ -18,12 +18,31 @@ export const fetchCartProducts = createAsyncThunk(
 
 const cartSlice = createSlice({
   name: 'cart',
-  initialState: { cart: [], status: 'idle' },
+  initialState: { cart: [], status: 'idle', numberOfProducts: 0 },
   reducers: {
     resetCart: (state) => {
       state.cart = [];
     },
+    increaseProduct: (state, action) => {
+      const index = state.cart.findIndex((item) => item._id === action.payload);
+      if (index !== -1) {
+        state.cart[index].number += 1;
+        state.numberOfProducts += 1;
+      }
+    },
+    decreaseProduct: (state, action) => {
+      const index = state.cart.findIndex((item) => item._id === action.payload);
+      if (index !== -1) {
+        state.cart[index].number -= 1;
+        state.numberOfProducts -= 1;
+      }
+    },
+    deleteProduct: (state, action) => {
+      state.cart = state.cart.filter((item) => item._id !== action.payload);
+    },
+    addToCart: (state, action) => {},
   },
+
   extraReducers: (builder) =>
     builder
       .addCase(fetchCartProducts.pending, (state) => {
@@ -32,11 +51,19 @@ const cartSlice = createSlice({
       .addCase(fetchCartProducts.fulfilled, (state, action) => {
         state.status = 'success';
         state.cart = action.payload.data.cart;
+        state.numberOfProducts = action.payload.data.numberOfProducts;
+        localStorage.setItem('cart', JSON.stringify(action.payload.data.cart));
       })
       .addCase(fetchCartProducts.rejected, (state) => {
         state.status = 'failed';
       }),
 });
 
-export const { resetCart } = cartSlice.actions;
+export const {
+  resetCart,
+  increaseProduct,
+  decreaseProduct,
+  deleteProduct,
+  addToCart,
+} = cartSlice.actions;
 export default cartSlice.reducer;

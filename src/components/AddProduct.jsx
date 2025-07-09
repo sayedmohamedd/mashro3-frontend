@@ -42,7 +42,6 @@ const AddProduct = () => {
       })
       .then((res) => {
         toast.success('product added');
-        console.log(res?.data);
         setTimeout(() => naviagte('/dashboard'), [1000]);
       })
       .catch((err) => setError(err.message));
