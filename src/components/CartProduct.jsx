@@ -1,5 +1,5 @@
 // Hooks
-import axios from 'axios';
+// import axios from 'axios';
 // React Router
 import { Link } from 'react-router-dom';
 
