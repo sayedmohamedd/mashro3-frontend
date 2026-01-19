@@ -24,6 +24,7 @@ import AuthRoutes from './components/ProtectRoutes/AuthRoutes';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import AdminRoutes from './components/ProtectRoutes/AdminRoutes';
+import UpdateProduct from './pages/UpdateProduct';
 
 function App() {
   return (
@@ -42,6 +43,10 @@ function App() {
             {/* Admin Routes*/}
             <Route element={<AdminRoutes />}>
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route
+                path="/dashboard/update/:slug"
+                element={<UpdateProduct />}
+              />
             </Route>
             <Route path="/products/:slug" element={<ProductPage />} />
             <Route path="/contact" element={<Contact />} />

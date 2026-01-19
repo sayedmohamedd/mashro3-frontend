@@ -6,7 +6,7 @@ import axios from 'axios';
 // Utils
 import { scrollTop } from '../utils/helper';
 import url from '../utils/url';
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 
 const AddProduct = () => {
   const naviagte = useNavigate();
@@ -49,7 +49,7 @@ const AddProduct = () => {
 
   return (
     <div className="w-4/5 p-3">
-      {/* <ToastContainer
+      <ToastContainer
         position="top-center"
         autoClose={1500}
         hideProgressBar={false}
@@ -57,7 +57,7 @@ const AddProduct = () => {
         pauseOnHover
         draggable
         pauseOnFocusLoss
-      /> */}
+      />
       <h1 className="mb-3 font-medium text-lg">Products</h1>
       <form className="flex flex-col gap-5" onSubmit={handleSubmit}>
         <input

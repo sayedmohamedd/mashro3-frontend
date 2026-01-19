@@ -26,7 +26,7 @@ const Categories = () => {
             key={category?._id}
             className="w-[70%] h-[100px] md:w-[20%] flex justify-center text-center items-center px-2 py-6 rounded-md text-xl font-medium text-slate-800 bg-white hover:scale-95 ease-in-out duration-100 cursor-pointer"
           >
-            <Link to={`/store/${category.name}`} className="text-center">
+            <Link to="" className="text-center">
               {category?.name}
             </Link>
           </div>

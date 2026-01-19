@@ -35,6 +35,11 @@ const productSlice = createSlice({
     resetPage: (state) => {
       state.page = 1;
     },
+    removeProductFromState: (state, action) => {
+      state.products = state.products.filter(
+        (item) => item._id !== action.payload
+      );
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -51,6 +56,11 @@ const productSlice = createSlice({
   },
 });
 
-export const { getAllProducts, nextPage, prevPage, resetPage } =
-  productSlice.actions;
+export const {
+  getAllProducts,
+  nextPage,
+  prevPage,
+  resetPage,
+  removeProductFromState,
+} = productSlice.actions;
 export default productSlice.reducer;
