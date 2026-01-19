@@ -23,7 +23,7 @@ const Dashbaord = () => {
 
   // Fetch All Products
   useEffect(() => {
-    dispatch(fetchAllProducts({ page: 3, category: '', sort: '-created_at' }));
+    dispatch(fetchAllProducts({ page: 1, category: '', sort: '-created_at' }));
     return () => {};
   }, [dispatch]);
 

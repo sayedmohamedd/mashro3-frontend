@@ -27,7 +27,7 @@ const Store = ({ api }) => {
   // Fetch Products
   useEffect(() => {
     dispatch(fetchAllProducts({ page, category, sort }));
-  }, [dispatch]);
+  }, [dispatch, page, category, sort]);
 
   const onNext = () => {
     setPage((prev) => prev + 1);
